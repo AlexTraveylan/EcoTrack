@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EcoTrack
 
-## Getting Started
+**EcoTrack** est une application construite avec Next.js qui extrait des fichiers JSON générés par Lighthouse pour présenter des données de performance web sous forme de graphiques évolutifs. L'application calcule également un éco-score basé sur les résultats de Lighthouse et valide l'adhérence aux bonnes pratiques définies dans un référentiel spécifique de France Travail.
 
-First, run the development server:
+## Fonctionnalités Principales
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Analyse de Performance :** Importez des fichiers JSON issus de Lighthouse et visualisez les résultats sous forme de graphiques interactifs.
+- **Évolution des Métriques :** Suivez l'évolution des métriques de performance web au fil du temps.
+- **Éco-score :** Évaluez l'impact écologique de votre site web grâce à notre système de notation innovant.
+- **Validation des Bonnes Pratiques :** Vérifiez si votre site respecte les standards de qualité définis par le référentiel de France Travail.
+- **Interface Intuitive :** Naviguez facilement dans vos données à l'aide d'une interface utilisateur réactive construite avec React.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clonez le dépôt : `git clone https://github.com/votre-utilisateur/EcoTrack.git`
+2. Accédez au dossier du projet : `cd EcoTrack`
+3. Installez les dépendances : `npm install`
+4. Lancez l'application : `npm run dev`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Comment Contribuer
 
-## Learn More
+Nous accueillons chaleureusement les contributions ! Veuillez consulter notre [guide de contribution](CONTRIBUTING.md) pour des informations sur la façon de soumettre des pull requests, signaler des problèmes, ou proposer de nouvelles fonctionnalités.
 
-To learn more about Next.js, take a look at the following resources:
+## Licence
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ce projet est sous licence [MIT](LICENSE).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contact
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pour toute question ou suggestion, n'hésitez pas à ouvrir un problème sur ce dépôt ou à nous contacter par mail à contact@ecotrack-app.com.
