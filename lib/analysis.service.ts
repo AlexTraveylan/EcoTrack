@@ -1,5 +1,4 @@
 import type { Result } from "lighthouse"
-import { LightHouseService } from "./lighthouse.service"
 import type { ByteWeight, EcoMetric, Requests, ResourceItem } from "./types"
 
 export class AnalysisService {
@@ -35,6 +34,7 @@ export class AnalysisService {
     }
 
     // Mise en cache
+    // @ts-ignore: I don't know how to get the right type
     this.resourceItems = resourceDetails.items as ResourceItem[]
 
     return this.resourceItems
@@ -102,9 +102,3 @@ export class AnalysisService {
     return new Date(this.lhr.fetchTime)
   }
 }
-
-const lighthouseService = new LightHouseService("home-page")
-lighthouseService.getLightHouseReport(1).then((result) => {
-  const analysisService = new AnalysisService(result)
-  console.log(analysisService.getEcoMetric())
-})
