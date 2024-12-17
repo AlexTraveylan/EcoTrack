@@ -12,7 +12,7 @@
 
 ## Installation
 
-1. Clonez le dépôt : `git clone https://github.com/votre-utilisateur/EcoTrack.git`
+1. Clonez le dépôt : `git clone https://github.com/AlexTraveylan/EcoTrack.git`
 2. Accédez au dossier du projet : `cd EcoTrack`
 3. Installez les dépendances : `npm install`
 4. Lancez l'application : `npm run dev`
@@ -27,4 +27,4 @@ Ce projet est sous licence [MIT](LICENSE).
 
 ## Contact
 
-Pour toute question ou suggestion, n'hésitez pas à ouvrir un problème sur ce dépôt ou à nous contacter par mail à contact@ecotrack-app.com.
+Pour toute question ou suggestion, n'hésitez pas à ouvrir un problème sur ce dépôt ou à nous contacter par mail à timtohee.demares@gmail.com.
