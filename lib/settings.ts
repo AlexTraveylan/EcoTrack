@@ -1,5 +1,5 @@
 import path from "path"
-import { PublicJsonPath } from "./types"
+import type { PublicJsonPath } from "./types"
 
 export const settings = {
   workspace: path.resolve(__dirname, "../"),
