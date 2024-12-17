@@ -1,7 +1,16 @@
 import type { Result } from "lighthouse"
 import type { ByteWeight, EcoMetric, Requests, ResourceItem } from "./types"
 
-export class AnalysisService {
+/*
+Service pour extraire les données de l'audit Lighthouse
+
+Peut évoluer pour recuperer des résultats existants en base de données
+*/
+interface Analyzer {
+  getEcoMetric(): EcoMetric
+}
+
+export class AnalysisService implements Analyzer {
   private resourceItems: ResourceItem[] | null
 
   constructor(private readonly lhr: Result) {

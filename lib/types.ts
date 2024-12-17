@@ -1,3 +1,9 @@
+export type PublicJsonPath = {
+  projectName: string
+  pageName: string
+  reportNumber: number
+}
+
 export type Requests = {
   total: number
   scripts: number
