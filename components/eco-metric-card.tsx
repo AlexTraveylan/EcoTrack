@@ -26,9 +26,11 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-4">
-          {/* Temps DOM */}
+          {/*  DOM */}
           <div className="bg-muted/50 p-4 rounded-lg">
-            <h3 className="text-sm font-medium text-muted-foreground mb-2">Temps DOM</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-2">
+              Taille du DOM
+            </h3>
             <p
               className={`text-2xl font-bold ${getColorClass(
                 metrics.dom,
