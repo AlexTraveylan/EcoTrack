@@ -103,7 +103,7 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
       <CardFooter className="text-xs text-muted-foreground border-t pt-4">
         <div className="grid grid-cols-3 w-full gap-4">
           <div>
-            <strong>Temps DOM</strong>
+            <strong>Taille du DOM</strong>
             <p>Optimal : ≤ {formatNumber(settings.domT.target)} ms</p>
             <p>Acceptable : ≤ {formatNumber(settings.domT.acceptable)} ms</p>
           </div>
