@@ -1,3 +1,4 @@
+import ChartRequests from "@/components/chart-requests"
 import EcoMetricCard from "@/components/eco-metric-card"
 import { AnalysisService } from "@/lib/analysis.service"
 import { EcoIndexCalculator } from "@/lib/eco-index"
@@ -21,7 +22,19 @@ export default async function Page({
       <p>
         Contenu de la page {pageName} avec le rapport n°{reportNumber}
       </p>
-      <EcoMetricCard metrics={metrics} />
+      <div className="flex flex-col gap-4">
+        <EcoMetricCard metrics={metrics} />
+        <div className="flex gap-4 w-full max-w-4xl mx-auto">
+          <ChartRequests
+            reqDetails={metrics.requests}
+            title="Nombre de requêtes - Répartition"
+          />
+          <ChartRequests
+            reqDetails={metrics.byteWeight}
+            title="Taille des requêtes - Répartition"
+          />
+        </div>
+      </div>
     </main>
   )
 }

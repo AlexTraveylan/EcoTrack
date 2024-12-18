@@ -4,7 +4,7 @@ export type PublicJsonPath = {
   reportNumber: number
 }
 
-export type Requests = {
+export type RequestDetails = {
   total: number
   scripts: number
   stylesheets: number
@@ -13,14 +13,9 @@ export type Requests = {
   other: number
 }
 
-export type ByteWeight = {
-  total: number
-  scripts: number
-  stylesheets: number
-  images: number
-  fonts: number
-  other: number
-}
+export type Requests = RequestDetails
+
+export type ByteWeight = RequestDetails
 
 export type EcoMetric = {
   date: Date
