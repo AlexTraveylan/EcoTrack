@@ -6,6 +6,7 @@ import {
   BPMinifyCode,
   BPOptimizeImages,
   BPUnusedCode,
+  BPWebfont,
 } from "./best-practice.service"
 import { settings } from "./settings"
 
@@ -341,5 +342,83 @@ describe("BPUnusedCode-HP", () => {
     const bpUnusedCode = new BPUnusedCode(result)
     const messages = bpUnusedCode.displayMessages()
     expect(messages).toEqual(["Css inutilisé: 91.27", "Js inutilisé: 50.93"])
+  })
+})
+
+// Bonne pratique des webfonts
+
+describe("BPWebfont-TMF", () => {
+  let result: Result
+
+  beforeEach(() => {
+    const jsonData = readFileSync(
+      path.join(settings.workspace, "public/chercher-ma-formation/soudeur/1.json"),
+      "utf-8"
+    )
+    result = JSON.parse(jsonData) as Result
+  })
+
+  it("should have the correct title", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    expect(bpUnusedCode.title).toBe("Utiliser les Webfonts de manière responsable")
+  })
+
+  it("should return false if there are invalid image URLs", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    expect(bpUnusedCode.checkIfValid()).toBe(false)
+  })
+
+  it("should return an acceptance message with correct values", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    const message = bpUnusedCode.getAcceptanceMessage()
+    expect(message).toContain("Nombre de fonts (Tolerance: 3, Valeur: 5)")
+    expect(message).toContain("Nombre de fonts non optimisées (Tolerance: 0, Valeur: 1)")
+  })
+
+  it("should return invalid image URLs", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    const messages = bpUnusedCode.displayMessages()
+    expect(messages).toEqual([
+      "Nombre de webfonts: 5",
+      "Webfont non optimisée: https://candidat.francetravail.fr/formations/assets/meta/socle/769eccd1/pechartegraphique/fonts/icons.ttf?wekjvp",
+    ])
+  })
+})
+
+describe("BPWebfont-HP", () => {
+  let result: Result
+
+  beforeEach(() => {
+    const jsonData = readFileSync(
+      path.join(settings.workspace, "public/home-page/accueil/1.json"),
+      "utf-8"
+    )
+    result = JSON.parse(jsonData) as Result
+  })
+
+  it("should have the correct title", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    expect(bpUnusedCode.title).toBe("Utiliser les Webfonts de manière responsable")
+  })
+
+  it("should return false if there are invalid image URLs", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    expect(bpUnusedCode.checkIfValid()).toBe(false)
+  })
+
+  it("should return an acceptance message with correct values", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    const message = bpUnusedCode.getAcceptanceMessage()
+    expect(message).toContain("Nombre de fonts (Tolerance: 3, Valeur: 9)")
+    expect(message).toContain("Nombre de fonts non optimisées (Tolerance: 0, Valeur: 1)")
+  })
+
+  it("should return invalid image URLs", () => {
+    const bpUnusedCode = new BPWebfont(result)
+    const messages = bpUnusedCode.displayMessages()
+    expect(messages).toEqual([
+      "Nombre de webfonts: 9",
+      "Webfont non optimisée: https://www.francetravail.fr/accueil/a/icons.49c4346a09bcfae30639.ttf?wekjvp",
+    ])
   })
 })

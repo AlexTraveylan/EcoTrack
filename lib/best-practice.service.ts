@@ -16,6 +16,7 @@ export function bestPracticesFactory(lhr: Result): BestPractice[] {
     new BPOptimizeImages(lhr),
     new BPMinifyCode(lhr),
     new BPUnusedCode(lhr),
+    new BPWebfont(lhr),
   ]
 }
 
@@ -28,7 +29,7 @@ function extractUrls(result: Result, key: string): string[] {
     return []
   }
 
-  return items.map((item) => item.url).filter((url) => typeof url === "string")
+  return items.map((item) => item.url)
 }
 
 export class BPLazyLoading implements BestPractice {
@@ -260,5 +261,67 @@ export class BPUnusedCode implements BestPractice {
     this.unusedJsRatio = totalWastedBytes / totalTotalBytes
 
     return this.unusedJsRatio
+  }
+}
+
+export class BPWebfont implements BestPractice {
+  public readonly title: string = "Utiliser les Webfonts de manière responsable"
+  public readonly refCode: string = "UI-26 / UI-27"
+  public readonly impact: Impact[] = ["requests", "size"]
+  private readonly acceptanceValueNbFonts = 3
+  private readonly acceptanceValueNbBadFonts = 0
+  private nbFonts: number | null = null
+  private badFontUrls: string[] | null = null
+
+  constructor(private readonly lhr: Result) {
+    this.lhr = lhr
+  }
+
+  checkIfValid(): boolean {
+    return (
+      this.getFontsInfos()[0] <= this.acceptanceValueNbFonts &&
+      this.getFontsInfos()[1].length <= this.acceptanceValueNbBadFonts
+    )
+  }
+
+  getAcceptanceMessage(): string {
+    return `Nombre de fonts (Tolerance: ${this.acceptanceValueNbFonts}, Valeur: ${
+      this.getFontsInfos()[0]
+    }), Nombre de fonts non optimisées (Tolerance: ${
+      this.acceptanceValueNbBadFonts
+    }, Valeur: ${this.getFontsInfos()[1].length})`
+  }
+
+  displayMessages(): string[] {
+    const messages: string[] = [`Nombre de webfonts: ${this.getFontsInfos()[0]}`]
+
+    this.getFontsInfos()[1].forEach((url) => {
+      messages.push(`Webfont non optimisée: ${url}`)
+    })
+
+    return messages
+  }
+
+  private getFontsInfos(): [number, string[]] {
+    if (this.nbFonts !== null && this.badFontUrls !== null) {
+      return [this.nbFonts, this.badFontUrls]
+    }
+
+    const audit = this.lhr.audits["network-requests"]
+    // @ts-expect-error I dont know how to get the type from lighthouse here.
+    const items = audit.details.items
+
+    if (!Array.isArray(items)) {
+      return [0, []]
+    }
+
+    const allFonts = items.filter((item) => item.resourceType === "Font")
+    this.nbFonts = allFonts.length
+
+    this.badFontUrls = allFonts
+      .filter((item) => !item.url.includes(".woff"))
+      .map((item) => item.url)
+
+    return [this.nbFonts, this.badFontUrls]
   }
 }
