@@ -1,7 +1,12 @@
 import { readFileSync } from "fs" // Importer le module fs
 import type { Result } from "lighthouse"
 import path from "path"
-import { BPLazyLoading, BPMinifyCode, BPOptimizeImages } from "./best-practice.service"
+import {
+  BPLazyLoading,
+  BPMinifyCode,
+  BPOptimizeImages,
+  BPUnusedCode,
+} from "./best-practice.service"
 import { settings } from "./settings"
 
 // Bonne pratique du Lazy Loading
@@ -30,7 +35,7 @@ describe("BPLazyLoading-TMF", () => {
   it("should return an acceptance message with correct values", () => {
     const bpLazyLoading = new BPLazyLoading(result)
     const message = bpLazyLoading.getAcceptanceMessage()
-    expect(message).toContain("Requis: 0")
+    expect(message).toContain("Tolerance: 0")
     expect(message).toContain("Valeur: 1")
   })
 
@@ -67,7 +72,7 @@ describe("BPLazyLoading-HP", () => {
   it("should return an acceptance message with correct values", () => {
     const bpLazyLoading = new BPLazyLoading(result)
     const message = bpLazyLoading.getAcceptanceMessage()
-    expect(message).toContain("Requis: 0")
+    expect(message).toContain("Tolerance: 0")
     expect(message).toContain("Valeur: 0")
   })
 
@@ -106,7 +111,7 @@ describe("BPOptimizeImages-TMF", () => {
   it("should return an acceptance message with correct values", () => {
     const bpOptimizeImages = new BPOptimizeImages(result)
     const message = bpOptimizeImages.getAcceptanceMessage()
-    expect(message).toContain("Requis: 0")
+    expect(message).toContain("Tolerance: 0")
     expect(message).toContain("Valeur: 3")
   })
 
@@ -147,7 +152,7 @@ describe("BPOptimizeImages-HP", () => {
   it("should return an acceptance message with correct values", () => {
     const bpOptimizeImages = new BPOptimizeImages(result)
     const message = bpOptimizeImages.getAcceptanceMessage()
-    expect(message).toContain("Requis: 0")
+    expect(message).toContain("Tolerance: 0")
     expect(message).toContain("Valeur: 28")
   })
 
@@ -213,7 +218,7 @@ describe("BPMinifyCode-TMF", () => {
   it("should return an acceptance message with correct values", () => {
     const bpMinifyCode = new BPMinifyCode(result)
     const message = bpMinifyCode.getAcceptanceMessage()
-    expect(message).toContain("Requis: 0")
+    expect(message).toContain("Tolerance: 0")
     expect(message).toContain("Valeur: 1")
   })
 
@@ -250,7 +255,7 @@ describe("bpMinifyCode-HP", () => {
   it("should return an acceptance message with correct values", () => {
     const bpMinifyCode = new BPMinifyCode(result)
     const message = bpMinifyCode.getAcceptanceMessage()
-    expect(message).toContain("Requis: 0")
+    expect(message).toContain("Tolerance: 0")
     expect(message).toContain("Valeur: 3")
   })
 
@@ -262,5 +267,79 @@ describe("bpMinifyCode-HP", () => {
       "Js non minifié: https://guidances-applicatives.pole-emploi.fr/know/api/engine?pkgId=429&version=-414658748",
       "Js non minifié: https://cdn.tagcommander.com/4340/tc_PoleEmploi_24.js",
     ])
+  })
+})
+
+// Bonne pratique de suppression des fichiers inutiles
+
+describe("BPUnusedCode-TMF", () => {
+  let result: Result
+
+  beforeEach(() => {
+    const jsonData = readFileSync(
+      path.join(settings.workspace, "public/chercher-ma-formation/soudeur/1.json"),
+      "utf-8"
+    )
+    result = JSON.parse(jsonData) as Result
+  })
+
+  it("should have the correct title", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    expect(bpUnusedCode.title).toBe("Supprimer le code inutilisé")
+  })
+
+  it("should return false if there are invalid image URLs", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    expect(bpUnusedCode.checkIfValid()).toBe(false)
+  })
+
+  it("should return an acceptance message with correct values", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    const message = bpUnusedCode.getAcceptanceMessage()
+    expect(message).toContain("Tolerance: < 0.4")
+    expect(message).toContain("Css-Valeur: 0.8962")
+    expect(message).toContain("Js-Valeur: 0.6321")
+  })
+
+  it("should return invalid image URLs", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    const messages = bpUnusedCode.displayMessages()
+    expect(messages).toEqual(["Css inutilisé: 89.62", "Js inutilisé: 63.21"])
+  })
+})
+
+describe("BPUnusedCode-HP", () => {
+  let result: Result
+
+  beforeEach(() => {
+    const jsonData = readFileSync(
+      path.join(settings.workspace, "public/home-page/accueil/1.json"),
+      "utf-8"
+    )
+    result = JSON.parse(jsonData) as Result
+  })
+
+  it("should have the correct title", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    expect(bpUnusedCode.title).toBe("Supprimer le code inutilisé")
+  })
+
+  it("should return false if there are invalid image URLs", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    expect(bpUnusedCode.checkIfValid()).toBe(false)
+  })
+
+  it("should return an acceptance message with correct values", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    const message = bpUnusedCode.getAcceptanceMessage()
+    expect(message).toContain("Tolerance: < 0.4")
+    expect(message).toContain("Css-Valeur: 0.9127")
+    expect(message).toContain("Js-Valeur: 0.5093")
+  })
+
+  it("should return invalid image URLs", () => {
+    const bpUnusedCode = new BPUnusedCode(result)
+    const messages = bpUnusedCode.displayMessages()
+    expect(messages).toEqual(["Css inutilisé: 91.27", "Js inutilisé: 50.93"])
   })
 })

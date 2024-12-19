@@ -11,7 +11,12 @@ export interface BestPractice {
 }
 
 export function bestPracticesFactory(lhr: Result): BestPractice[] {
-  return [new BPLazyLoading(lhr), new BPOptimizeImages(lhr), new BPMinifyCode(lhr)]
+  return [
+    new BPLazyLoading(lhr),
+    new BPOptimizeImages(lhr),
+    new BPMinifyCode(lhr),
+    new BPUnusedCode(lhr),
+  ]
 }
 
 function extractUrls(result: Result, key: string): string[] {
@@ -40,7 +45,7 @@ export class BPLazyLoading implements BestPractice {
     return this.getInvalidImageUrls().length === this.acceptanceValue
   }
   getAcceptanceMessage(): string {
-    return `Les images sous la ligne de flotaison sont en lazy loading (Requis: ${
+    return `Les images sous la ligne de flotaison sont en lazy loading (Tolerance: ${
       this.acceptanceValue
     }, Valeur: ${this.getInvalidImageUrls().length})`
   }
@@ -76,7 +81,7 @@ export class BPOptimizeImages implements BestPractice {
     return this.totalInvalid() === this.acceptanceValue
   }
   getAcceptanceMessage(): string {
-    return `Toutes les images sont optimisées (Requis: ${
+    return `Toutes les images sont optimisées (Tolerance: ${
       this.acceptanceValue
     }, Valeur: ${this.totalInvalid()})`
   }
@@ -137,7 +142,7 @@ export class BPMinifyCode implements BestPractice {
   }
 
   getAcceptanceMessage(): string {
-    return `Les fichiers css et js doivent être minifiés (Requis: ${
+    return `Les fichiers css et js doivent être minifiés (Tolerance: ${
       this.acceptanceValue
     }, Valeur: ${this.totalInvalid()})`
   }
@@ -178,5 +183,82 @@ export class BPMinifyCode implements BestPractice {
     this.unminifiedJsUrls = extractUrls(this.lhr, "unminified-javascript")
 
     return this.unminifiedJsUrls
+  }
+}
+
+export class BPUnusedCode implements BestPractice {
+  public readonly title: string = "Supprimer le code inutilisé"
+  public readonly refCode: string = "CO-17"
+  public readonly impact: Impact[] = ["size"]
+  private readonly acceptanceValue = 0.4
+  private unusedCssRatio: number | null = null
+  private unusedJsRatio: number | null = null
+
+  constructor(private readonly lhr: Result) {
+    this.lhr = lhr
+  }
+
+  checkIfValid(): boolean {
+    return (
+      this.getUnusedCssRatio() <= this.acceptanceValue &&
+      this.getUnusedJsRatio() <= this.acceptanceValue
+    )
+  }
+
+  getAcceptanceMessage(): string {
+    return `Le code inutilisé doit être supprimé (Tolerance: < ${
+      this.acceptanceValue
+    }, Css-Valeur: ${this.getUnusedCssRatio().toFixed(
+      4
+    )}, Js-Valeur: ${this.getUnusedJsRatio().toFixed(4)})`
+  }
+
+  displayMessages(): string[] {
+    return [
+      `Css inutilisé: ${(this.getUnusedCssRatio() * 100).toFixed(2)}`,
+      `Js inutilisé: ${(this.getUnusedJsRatio() * 100).toFixed(2)}`,
+    ]
+  }
+
+  private getUnusedCssRatio(): number {
+    if (this.unusedCssRatio !== null) {
+      return this.unusedCssRatio
+    }
+
+    const audit = this.lhr.audits["unused-css-rules"]
+    // @ts-expect-error I dont know how to get the type from lighthouse here.
+    const items = audit.details.items
+
+    if (!Array.isArray(items)) {
+      return 0
+    }
+
+    const totalWastedBytes = items.reduce((acc, item) => acc + item.wastedBytes, 0)
+    const totalTotalBytes = items.reduce((acc, item) => acc + item.totalBytes, 0)
+
+    this.unusedCssRatio = totalWastedBytes / totalTotalBytes
+
+    return this.unusedCssRatio
+  }
+
+  private getUnusedJsRatio(): number {
+    if (this.unusedJsRatio !== null) {
+      return this.unusedJsRatio
+    }
+
+    const audit = this.lhr.audits["unused-javascript"]
+    // @ts-expect-error I dont know how to get the type from lighthouse here.
+    const items = audit.details.items
+
+    if (!Array.isArray(items)) {
+      return 0
+    }
+
+    const totalWastedBytes = items.reduce((acc, item) => acc + item.wastedBytes, 0)
+    const totalTotalBytes = items.reduce((acc, item) => acc + item.totalBytes, 0)
+
+    this.unusedJsRatio = totalWastedBytes / totalTotalBytes
+
+    return this.unusedJsRatio
   }
 }
