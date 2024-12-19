@@ -16,7 +16,7 @@ export function bestPracticesFactory(lhr: Result): BestPractice[] {
 
 function extractUrls(result: Result, key: string): string[] {
   const audit = result.audits[key]
-  // @ts-ignore I dont know how to get the type from lighthouse here.
+  // @ts-expect-error I dont know how to get the type from lighthouse here.
   const items = audit.details.items
 
   if (!Array.isArray(items)) {

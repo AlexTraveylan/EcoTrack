@@ -43,7 +43,7 @@ export class AnalysisService implements Analyzer {
     }
 
     // Mise en cache
-    // @ts-ignore: I don't know how to get the right type
+    // @ts-expect-error: I don't know how to get the right type
     this.resourceItems = resourceDetails.items as ResourceItem[]
 
     return this.resourceItems

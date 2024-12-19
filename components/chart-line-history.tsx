@@ -38,10 +38,19 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+export type MetricRecord = {
+  dateStr: string
+  ecoindex?: number
+  gCO2e?: number
+  dom?: number
+  requests?: number
+  size?: number
+}
+
 const ChartLineHistory = ({
   chartDataRecord,
 }: {
-  chartDataRecord: Record<ChartLinePossibilities, any[]>
+  chartDataRecord: Record<ChartLinePossibilities, MetricRecord[]>
 }) => {
   const [mesureKey, setMesureKey] = useState<ChartLinePossibilities>("gCO2e")
   const color = `var(--color-${mesureKey})`
@@ -49,7 +58,10 @@ const ChartLineHistory = ({
   const chartData = chartDataRecord[mesureKey]
 
   // Calculer le min et max des données pour ajuster l'échelle
-  const values = chartData.map((item) => item[mesureKey])
+  const values = chartData
+    .map((item) => item[mesureKey] as number)
+    .filter((value) => value !== undefined)
+
   const minValue = Math.min(...values)
   const maxValue = Math.max(...values)
   const padding = (maxValue - minValue) * 0.1 // 10% de marge

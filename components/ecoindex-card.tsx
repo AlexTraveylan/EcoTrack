@@ -33,17 +33,17 @@ const EcoIndexDisplay: React.FC<{ ecoIndex: EcoIndex }> = ({ ecoIndex }) => {
 
         <div className="space-y-4">
           <div>
-            <p className="text-sm text-gray-500">Score EcoIndex</p>
+            <p className="text-sm text-gray-500">{"Score EcoIndex"}</p>
             <p className="text-xl font-semibold">{ecoIndex.score.toFixed(1)} / 100</p>
           </div>
 
           <div>
-            <p className="text-sm text-gray-500">Émissions CO2</p>
+            <p className="text-sm text-gray-500">{"Émissions CO2"}</p>
             <p className="text-xl font-semibold">{ecoIndex.gCo2e.toFixed(2)} gCO2e</p>
           </div>
 
           <div>
-            <p className="text-sm text-gray-500">Consommation d'eau</p>
+            <p className="text-sm text-gray-500">{"Consommation d'eau"}</p>
             <p className="text-xl font-semibold">{ecoIndex.water.toFixed(2)} cl</p>
           </div>
         </div>

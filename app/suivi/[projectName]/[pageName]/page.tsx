@@ -1,5 +1,6 @@
 import ChartLineHistory, {
   type ChartLinePossibilities,
+  type MetricRecord,
 } from "@/components/chart-line-history"
 import Header from "@/components/header"
 import { buttonVariants } from "@/components/ui/button"
@@ -41,7 +42,7 @@ export default async function Page({
     )
   }
 
-  const chartDataRecord: Record<ChartLinePossibilities, any[]> = {
+  const chartDataRecord: Record<ChartLinePossibilities, MetricRecord[]> = {
     ecoindex: [],
     gCO2e: [],
     dom: [],
