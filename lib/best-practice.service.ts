@@ -1,7 +1,7 @@
 import type { Result } from "lighthouse";
 import type { Impact } from "./types";
 
-interface BestPractice {
+export interface BestPractice {
   title: string;
   refCode: string;
   impact: Impact[];
