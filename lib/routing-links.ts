@@ -14,7 +14,7 @@ export const projects: Project[] = [
     pages: [
       {
         name: "accueil",
-        numbers: [1, 2],
+        numbers: [1, 2, 3],
       },
     ],
   },
