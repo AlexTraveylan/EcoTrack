@@ -16,12 +16,12 @@ export default async function Home() {
           </h1>
 
           <p className="text-xl text-gray-600 mx-auto mb-8">
-            Suivez et optimisez la performance environnementale de vos applications web
+            {"Suivez et optimisez la performance environnementale de vos applications web"}
           </p>
 
           <Link href="/suivi">
             <Button size="lg" className="text-lg px-8 py-6">
-              Démarrer le suivi
+              {"Démarrer le suivi"}
               <svg
                 className="ml-2 h-5 w-5"
                 fill="none"

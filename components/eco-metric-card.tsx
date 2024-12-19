@@ -44,7 +44,7 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
           {/* Nombre total de requêtes */}
           <div className="bg-muted/50 p-4 rounded-lg">
             <h3 className="text-sm font-medium text-muted-foreground mb-2">
-              Nombre total de requêtes
+              {"Nombre total de requêtes"}
             </h3>
             <p
               className={`text-2xl font-bold ${getColorClass(
@@ -59,7 +59,7 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
           {/* Poids total des octets */}
           <div className="bg-muted/50 p-4 rounded-lg">
             <h3 className="text-sm font-medium text-muted-foreground mb-2">
-              Poids total en octets
+              {"Poids total en octets"}
             </h3>
             <p
               className={`text-2xl font-bold ${getColorClass(
@@ -74,7 +74,7 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
           {/* Détail des requêtes */}
           <div className="col-span-3 mt-4 grid grid-cols-2 gap-4">
             <div>
-              <h4 className="text-sm font-semibold mb-2">Répartition des requêtes</h4>
+              <h4 className="text-sm font-semibold mb-2">{"Répartition des requêtes"}</h4>
               <ul className="space-y-1 text-sm">
                 <li>Scripts : {formatNumber(metrics.requests.scripts)}</li>
                 <li>Feuilles de style : {formatNumber(metrics.requests.stylesheets)}</li>
@@ -85,7 +85,7 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
             </div>
             <div>
               <h4 className="text-sm font-semibold mb-2">
-                Répartition du poids en octets
+                {"Répartition du poids en octets"}
               </h4>
               <ul className="space-y-1 text-sm">
                 <li>Scripts : {formatNumber(metrics.byteWeight.scripts)} octets</li>
@@ -103,17 +103,17 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
       <CardFooter className="text-xs text-muted-foreground border-t pt-4">
         <div className="grid grid-cols-3 w-full gap-4">
           <div>
-            <strong>Taille du DOM</strong>
+            <strong>{"Taille du DOM"}</strong>
             <p>Optimal : ≤ {formatNumber(settings.domT.target)} ms</p>
             <p>Acceptable : ≤ {formatNumber(settings.domT.acceptable)} ms</p>
           </div>
           <div>
-            <strong>Nombre de requêtes</strong>
+            <strong>{"Nombre de requêtes"}</strong>
             <p>Optimal : ≤ {formatNumber(settings.requestsT.target)}</p>
             <p>Acceptable : ≤ {formatNumber(settings.requestsT.acceptable)}</p>
           </div>
           <div>
-            <strong>Poids total</strong>
+            <strong>{"Poids total"}</strong>
             <p>Optimal : ≤ {formatNumber(settings.sizeT.target)} octets</p>
             <p>Acceptable : ≤ {formatNumber(settings.sizeT.acceptable)} octets</p>
           </div>

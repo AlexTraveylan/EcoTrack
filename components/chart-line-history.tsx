@@ -1,14 +1,9 @@
 "use client"
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { useState } from "react"
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
@@ -43,14 +38,18 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-const ChartLineHistory = ({chartDataRecord} : {chartDataRecord: Record<ChartLinePossibilities, any[]>}) =>  {
+const ChartLineHistory = ({
+  chartDataRecord,
+}: {
+  chartDataRecord: Record<ChartLinePossibilities, any[]>
+}) => {
   const [mesureKey, setMesureKey] = useState<ChartLinePossibilities>("gCO2e")
   const color = `var(--color-${mesureKey})`
-  
+
   const chartData = chartDataRecord[mesureKey]
 
   // Calculer le min et max des données pour ajuster l'échelle
-  const values = chartData.map(item => item[mesureKey])
+  const values = chartData.map((item) => item[mesureKey])
   const minValue = Math.min(...values)
   const maxValue = Math.max(...values)
   const padding = (maxValue - minValue) * 0.1 // 10% de marge
@@ -58,11 +57,11 @@ const ChartLineHistory = ({chartDataRecord} : {chartDataRecord: Record<ChartLine
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Evolution des mesures de la page</CardTitle>
+        <CardTitle>{"Évolution des mesures de la page"}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <RadioGroup 
-          value={mesureKey} 
+        <RadioGroup
+          value={mesureKey}
           onValueChange={(value) => setMesureKey(value as ChartLinePossibilities)}
           className="grid grid-cols-2 gap-4 sm:grid-cols-5"
         >
@@ -82,7 +81,7 @@ const ChartLineHistory = ({chartDataRecord} : {chartDataRecord: Record<ChartLine
               top: 20,
               left: 40,
               right: 20,
-              bottom: 20
+              bottom: 20,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -91,7 +90,7 @@ const ChartLineHistory = ({chartDataRecord} : {chartDataRecord: Record<ChartLine
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              padding={{left: 30, right: 30}}
+              padding={{ left: 30, right: 30 }}
               tickFormatter={(value) => value.slice(0, 10)}
             />
             <YAxis
@@ -100,10 +99,7 @@ const ChartLineHistory = ({chartDataRecord} : {chartDataRecord: Record<ChartLine
               tickMargin={8}
               domain={[minValue - padding, maxValue + padding]}
             />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Line
               dataKey={mesureKey}
               type="natural"
@@ -111,7 +107,7 @@ const ChartLineHistory = ({chartDataRecord} : {chartDataRecord: Record<ChartLine
               strokeWidth={2}
               dot={{
                 fill: color,
-                r: 4
+                r: 4,
               }}
               activeDot={{
                 r: 6,

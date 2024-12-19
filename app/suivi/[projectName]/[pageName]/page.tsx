@@ -1,37 +1,33 @@
 import ChartLineHistory, {
   type ChartLinePossibilities,
-} from "@/components/chart-line-history";
-import Header from "@/components/header";
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AnalysisService } from "@/lib/analysis.service";
-import { EcoIndexCalculator } from "@/lib/eco-index";
-import { PublicPathExtractor } from "@/lib/json-lh-extractor.service";
-import {
-  NavItemsBuilder,
-  projects,
-  reportNumberItem,
-} from "@/lib/routing-links";
-import Link from "next/link";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
+} from "@/components/chart-line-history"
+import Header from "@/components/header"
+import { buttonVariants } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { AnalysisService } from "@/lib/analysis.service"
+import { EcoIndexCalculator } from "@/lib/eco-index"
+import { PublicPathExtractor } from "@/lib/json-lh-extractor.service"
+import { NavItemsBuilder, projects, reportNumberItem } from "@/lib/routing-links"
+import Link from "next/link"
+import { format } from "date-fns"
+import { fr } from "date-fns/locale"
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ projectName: string; pageName: string }>;
+  params: Promise<{ projectName: string; pageName: string }>
 }) {
-  const { projectName, pageName } = await params;
+  const { projectName, pageName } = await params
   const navigation = new NavItemsBuilder()
     .withHome()
     .withSuivi()
     .withProject(projectName)
     .withPage(projectName, pageName)
-    .getItems();
+    .getItems()
 
   // Trouver le projet et la page correspondants
-  const project = projects.find((p) => p.name === projectName);
-  const page = project?.pages.find((p) => p.name === pageName);
+  const project = projects.find((p) => p.name === projectName)
+  const page = project?.pages.find((p) => p.name === pageName)
 
   if (!project || !page) {
     return (
@@ -39,12 +35,10 @@ export default async function Page({
         <Header navigation={navigation} />
         <main className="container mx-auto px-4 py-8">
           <h1 className="text-4xl font-bold mb-4">Page non trouvée</h1>
-          <p>
-            La page {pageName} n'existe pas dans le projet {projectName}.
-          </p>
+          <p>{`La page ${pageName} n'existe pas dans le projet ${projectName}.`}</p>
         </main>
       </>
-    );
+    )
   }
 
   const chartDataRecord: Record<ChartLinePossibilities, any[]> = {
@@ -53,34 +47,34 @@ export default async function Page({
     dom: [],
     requests: [],
     size: [],
-  };
+  }
 
-  const extractor = new PublicPathExtractor(projectName, pageName);
+  const extractor = new PublicPathExtractor(projectName, pageName)
   for (const num of page.numbers) {
-    const result = await extractor.getLightHouseReport(num);
-    const metrics = new AnalysisService(result).getEcoMetric();
-    const ecoIndex = new EcoIndexCalculator(metrics).getEcoIndex();
+    const result = await extractor.getLightHouseReport(num)
+    const metrics = new AnalysisService(result).getEcoMetric()
+    const ecoIndex = new EcoIndexCalculator(metrics).getEcoIndex()
 
     chartDataRecord.ecoindex.push({
       dateStr: format(metrics.date, "dd/MM/yyyy", { locale: fr }),
       ecoindex: ecoIndex.score,
-    });
+    })
     chartDataRecord.gCO2e.push({
       dateStr: format(metrics.date, "dd/MM/yyyy", { locale: fr }),
       gCO2e: ecoIndex.gCo2e,
-    });
+    })
     chartDataRecord.dom.push({
       dateStr: format(metrics.date, "dd/MM/yyyy", { locale: fr }),
       dom: metrics.dom,
-    });
+    })
     chartDataRecord.requests.push({
       dateStr: format(metrics.date, "dd/MM/yyyy", { locale: fr }),
       requests: metrics.requests.total,
-    });
+    })
     chartDataRecord.size.push({
       dateStr: format(metrics.date, "dd/MM/yyyy", { locale: fr }),
       size: metrics.byteWeight.total,
-    });
+    })
   }
 
   return (
@@ -89,7 +83,7 @@ export default async function Page({
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">{page.name}</h1>
-          <p className="text-gray-600">Projet: {project.name}</p>
+          <p className="text-gray-600">{`Projet: ${project.name}`}</p>
         </div>
 
         <Card>
@@ -111,8 +105,7 @@ export default async function Page({
                   className={buttonVariants({
                     variant: "outline",
                     size: "lg",
-                    className:
-                      "w-full h-24 flex flex-col items-center justify-center",
+                    className: "w-full h-24 flex flex-col items-center justify-center",
                   })}
                 >
                   <span className="text-2xl font-bold">N°{number}</span>
@@ -125,5 +118,5 @@ export default async function Page({
         <ChartLineHistory chartDataRecord={chartDataRecord} />
       </main>
     </>
-  );
+  )
 }

@@ -1,50 +1,50 @@
-import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle } from "lucide-react";
-import type { Impact } from '@/lib/types';
-import { BestPractice } from '@/lib/best-practice.service';
-import { cn } from '@/lib/utils';
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BestPractice } from "@/lib/best-practice.service"
+import type { Impact } from "@/lib/types"
+import { cn } from "@/lib/utils"
+import { CheckCircle, XCircle } from "lucide-react"
+import React from "react"
 
 const getImpactColor = (impact: Impact) => {
   switch (impact) {
     case "dom":
-      return "bg-blue-500";
+      return "bg-blue-500"
     case "requests":
-      return "bg-purple-500";
+      return "bg-purple-500"
     case "size":
-      return "bg-orange-500";
+      return "bg-orange-500"
     default:
-      return "bg-gray-500";
+      return "bg-gray-500"
   }
-};
+}
 
 const getImpactLabel = (impact: Impact) => {
   switch (impact) {
     case "dom":
-      return "DOM";
+      return "DOM"
     case "requests":
-      return "Requêtes";
+      return "Requêtes"
     case "size":
-      return "Taille";
+      return "Taille"
     default:
-      return impact;
+      return impact
   }
-};
-
-const getBackGroundColorCard = (isValid: boolean) => {
-    if (isValid) {
-        return "bg-green-50"
-    }
-    return "bg-red-50"
 }
 
-const BestPracticeCard: React.FC<{practice : BestPractice}> = ({ practice }) => {
-  const isValid = practice.checkIfValid();
-  const messages = practice.displayMessages();
+const getBackGroundColorCard = (isValid: boolean) => {
+  if (isValid) {
+    return "bg-green-50"
+  }
+  return "bg-red-50"
+}
+
+const BestPracticeCard: React.FC<{ practice: BestPractice }> = ({ practice }) => {
+  const isValid = practice.checkIfValid()
+  const messages = practice.displayMessages()
 
   return (
-    <Card className={cn('w-full', getBackGroundColorCard(isValid))}>
+    <Card className={cn("w-full", getBackGroundColorCard(isValid))}>
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
@@ -56,14 +56,12 @@ const BestPracticeCard: React.FC<{practice : BestPractice}> = ({ practice }) => 
               )}
               {practice.title}
             </CardTitle>
-            <p className="text-sm text-gray-500 mt-1">
-              Ref: {practice.refCode}
-            </p>
+            <p className="text-sm text-gray-500 mt-1">Ref: {practice.refCode}</p>
           </div>
           <div className="flex gap-2">
             {practice.impact.map((imp) => (
-              <Badge 
-                key={imp} 
+              <Badge
+                key={imp}
                 variant="default"
                 className={`${getImpactColor(imp)} text-white`}
               >
@@ -84,11 +82,11 @@ const BestPracticeCard: React.FC<{practice : BestPractice}> = ({ practice }) => 
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-gray-500 italic">Rien à afficher</p>
+          <p className="text-sm text-gray-500 italic">{"Rien à afficher"}</p>
         )}
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default BestPracticeCard;
+export default BestPracticeCard

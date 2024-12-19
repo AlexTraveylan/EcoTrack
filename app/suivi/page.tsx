@@ -17,7 +17,7 @@ export default async function Page() {
     <>
       <Header navigation={navigation} />
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Suivi des Projets</h1>
+        <h1 className="text-4xl font-bold mb-8">{"Suivi des Projets"}</h1>
         <div className="grid gap-6">
           {projects.map((project) => (
             <Card key={project.name}>
@@ -50,7 +50,7 @@ export default async function Page() {
                             href={reportNumberItem(project.name, page.name, number).href}
                             className={buttonVariants({ variant: "outline", size: "sm" })}
                           >
-                            Rapport n°{number}
+                            {`Rapport n°${number}`}
                           </Link>
                         ))}
                       </div>
