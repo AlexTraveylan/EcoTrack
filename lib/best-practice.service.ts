@@ -10,6 +10,15 @@ interface BestPractice {
   displayMessages(): string[];
 }
 
+export function bestPracticesFactory(lhr: Result): BestPractice[] {
+
+    return [
+        new BPLazyLoading(lhr),
+        new BPOptimizeImages(lhr),
+        new BPMinifyCode(lhr)
+    ]
+}
+
 function extractUrls(result: Result, key: string): string[] {
   const audit = result.audits[key];
   // @ts-ignore I dont know how to get the type from lighthouse here.
