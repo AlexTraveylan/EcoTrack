@@ -1,5 +1,9 @@
 import type { Result } from "lighthouse";
-import { BPLazyLoading, BPMinifyCode, BPOptimizeImages } from "./best-practice.service";
+import {
+  BPLazyLoading,
+  BPMinifyCode,
+  BPOptimizeImages,
+} from "./best-practice.service";
 import { readFileSync } from "fs"; // Importer le module fs
 import { settings } from "./settings";
 import path from "path";
@@ -193,7 +197,6 @@ describe("BPOptimizeImages-HP", () => {
   });
 });
 
-
 // Bonne pratique de minification des fichiers js et Css
 
 describe("BPMinifyCode-TMF", () => {
@@ -269,8 +272,8 @@ describe("bpMinifyCode-HP", () => {
     const messages = bpMinifyCode.displayMessages();
     expect(messages).toEqual([
       "Css non minifié: https://guidances-applicatives.pole-emploi.fr/know/api/style?pkgId=429&version=-418178325",
-"Js non minifié: https://guidances-applicatives.pole-emploi.fr/know/api/engine?pkgId=429&version=-414658748",
-"Js non minifié: https://cdn.tagcommander.com/4340/tc_PoleEmploi_24.js"
+      "Js non minifié: https://guidances-applicatives.pole-emploi.fr/know/api/engine?pkgId=429&version=-414658748",
+      "Js non minifié: https://cdn.tagcommander.com/4340/tc_PoleEmploi_24.js",
     ]);
   });
 });
