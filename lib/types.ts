@@ -39,3 +39,5 @@ export type EcoIndex = {
   water: number
   grade: Grade
 }
+
+export type Impact = "dom" | "requests" | "size"

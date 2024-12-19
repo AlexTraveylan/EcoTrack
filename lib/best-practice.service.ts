@@ -1,16 +1,33 @@
 import type { Result } from "lighthouse";
+import type { Impact } from "./types";
 
 interface BestPractice {
   title: string;
   refCode: string;
+  impact: Impact[]
   checkIfValid(): boolean;
   getAcceptanceMessage(): string;
   displayMessages(): string[];
 }
 
+function extractUrls(result: Result, key: string) : string[] {
+    const audit = result.audits[key];
+    // @ts-ignore I dont know how to get the type from lighthouse here.
+    const items = audit.details.items;
+
+    if (!Array.isArray(items)) {
+      return [];
+    }
+
+    return items
+      .map((item) => item.url)
+      .filter((url) => typeof url === "string");
+}
+
 export class BPLazyLoading implements BestPractice {
   public readonly title: string = "Mettre en place le Lazy-loading";
   public readonly refCode: string = "UI-01";
+  public readonly impact: Impact[] = ["dom", "requests", "size"];
   private invalidUrls: string[] | null = null;
   private readonly acceptanceValue = 0;
 
@@ -34,17 +51,7 @@ export class BPLazyLoading implements BestPractice {
       return this.invalidUrls;
     }
 
-    const lazyAudit = this.lhr.audits["offscreen-images"];
-    // @ts-ignore I dont know how to get the type from lighthouse here.
-    const items = lazyAudit.details.items;
-
-    if (!Array.isArray(items)) {
-      return [];
-    }
-
-    this.invalidUrls = items
-      .map((item) => item.url)
-      .filter((url) => typeof url === "string");
+    this.invalidUrls = extractUrls(this.lhr, "offscreen-images")
 
     return this.invalidUrls;
   }
@@ -54,6 +61,7 @@ export class BPOptimizeImages implements BestPractice {
   public readonly title: string =
     "Utiliser les images de manière approprié (taille, compression)";
   public readonly refCode: string = "UI-20 / UI-21 / UI-22";
+  public readonly impact: Impact[] = ["size"];
   private unsizedImgUrls: string[] | null = null;
   private unoptimizedImgUrls: string[] | null = null;
   private readonly acceptanceValue = 0;
@@ -63,12 +71,12 @@ export class BPOptimizeImages implements BestPractice {
   }
 
   checkIfValid(): boolean {
-    return this.totalInvalidImgs() === this.acceptanceValue;
+    return this.totalInvalid() === this.acceptanceValue;
   }
   getAcceptanceMessage(): string {
     return `Toutes les images sont optimisées (Requis: ${
       this.acceptanceValue
-    }, Valeur: ${this.totalInvalidImgs()})`;
+    }, Valeur: ${this.totalInvalid()})`;
   }
 
   displayMessages(): string[] {
@@ -85,7 +93,7 @@ export class BPOptimizeImages implements BestPractice {
     return messages;
   }
 
-  private totalInvalidImgs(): number {
+  private totalInvalid(): number {
     return (
       this.getUnsizedImgUrls().length + this.getUnoptimizedImgUrls().length
     );
@@ -96,17 +104,7 @@ export class BPOptimizeImages implements BestPractice {
       return this.unsizedImgUrls;
     }
 
-    const lazyAudit = this.lhr.audits["unsized-images"];
-    // @ts-ignore I dont know how to get the type from lighthouse here.
-    const items = lazyAudit.details.items;
-
-    if (!Array.isArray(items)) {
-      return [];
-    }
-
-    this.unsizedImgUrls = items
-      .map((item) => item.url)
-      .filter((url) => typeof url === "string");
+    this.unsizedImgUrls = extractUrls(this.lhr, "unsized-images")
 
     return this.unsizedImgUrls;
   }
@@ -116,18 +114,75 @@ export class BPOptimizeImages implements BestPractice {
       return this.unoptimizedImgUrls;
     }
 
-    const lazyAudit = this.lhr.audits["uses-optimized-images"];
-    // @ts-ignore I dont know how to get the type from lighthouse here.
-    const items = lazyAudit.details.items;
-
-    if (!Array.isArray(items)) {
-      return [];
-    }
-
-    this.unoptimizedImgUrls = items
-      .map((item) => item.url)
-      .filter((url) => typeof url === "string");
+    this.unoptimizedImgUrls = extractUrls(this.lhr, "uses-optimized-images")
 
     return this.unoptimizedImgUrls;
   }
 }
+
+
+export class BPMinifyCode implements BestPractice {
+    public readonly title: string =
+      "Minifier le code";
+    public readonly refCode: string = "CO-16";
+    public readonly impact: Impact[] = ["size"];
+    private unminifiedCssUrls: string[] | null = null;
+    private unminifiedJsUrls: string[] | null = null;
+    private readonly acceptanceValue = 0;
+  
+    constructor(private readonly lhr: Result) {
+      this.lhr = lhr;
+    }
+  
+    checkIfValid(): boolean {
+        return this.totalInvalid() === this.acceptanceValue
+    }
+
+    getAcceptanceMessage(): string {
+      return `Les fichiers css et js doivent être minifiés (Requis: ${
+      this.acceptanceValue
+    }, Valeur: ${this.totalInvalid()})`
+    }
+  
+    displayMessages(): string[] {
+        const messages: string[] = [];
+    
+        this.getUnminifiedCssUrls().forEach((url) => {
+          messages.push(`Css non minifié: ${url}`);
+        });
+    
+        this.getUnminifiedJsUrls().forEach((url) => {
+          messages.push(`Js non minifié: ${url}`);
+        });
+    
+        return messages;
+      }
+
+    private totalInvalid(): number {
+        return (
+          this.getUnminifiedCssUrls().length + this.getUnminifiedJsUrls().length
+        );
+      }
+  
+    private getUnminifiedCssUrls(): string[] {
+      if (this.unminifiedCssUrls !== null) {
+        return this.unminifiedCssUrls;
+      }
+
+      this.unminifiedCssUrls = extractUrls(this.lhr, "unminified-css")
+      
+      return this.unminifiedCssUrls;
+    }
+
+    private getUnminifiedJsUrls(): string[] {
+      if (this.unminifiedJsUrls !== null) {
+        return this.unminifiedJsUrls;
+      }
+
+      this.unminifiedJsUrls = extractUrls(this.lhr, "unminified-javascript")
+
+      return this.unminifiedJsUrls;
+    }
+  }
+  
+

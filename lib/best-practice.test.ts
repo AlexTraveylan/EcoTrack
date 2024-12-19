@@ -1,5 +1,5 @@
 import type { Result } from "lighthouse";
-import { BPLazyLoading, BPOptimizeImages } from "./best-practice.service";
+import { BPLazyLoading, BPMinifyCode, BPOptimizeImages } from "./best-practice.service";
 import { readFileSync } from "fs"; // Importer le module fs
 import { settings } from "./settings";
 import path from "path";
@@ -189,6 +189,88 @@ describe("BPOptimizeImages-HP", () => {
       "Compression incorrecte: https://www.francetravail.fr/files/live/sites/PE/files/pole-emploi-internet/actualite/G-P/la-poste-recrute-308.jpg",
       "Compression incorrecte: https://www.francetravail.fr/files/live/sites/PE/files/affiche/Logos/Bloc_Marque_RF_France_Travail_marque-308.jpg",
       "Compression incorrecte: https://www.francetravail.fr/files/live/sites/PE/files/affiche/2024/prendre-soin--fr-308.jpg",
+    ]);
+  });
+});
+
+
+// Bonne pratique de minification des fichiers js et Css
+
+describe("BPMinifyCode-TMF", () => {
+  let result: Result;
+
+  beforeEach(() => {
+    const jsonData = readFileSync(
+      path.join(
+        settings.workspace,
+        "public/chercher-ma-formation/soudeur/1.json"
+      ),
+      "utf-8"
+    );
+    result = JSON.parse(jsonData) as Result;
+  });
+
+  it("should have the correct title", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    expect(bpMinifyCode.title).toBe("Minifier le code");
+  });
+
+  it("should return false if there are invalid image URLs", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    expect(bpMinifyCode.checkIfValid()).toBe(false);
+  });
+
+  it("should return an acceptance message with correct values", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    const message = bpMinifyCode.getAcceptanceMessage();
+    expect(message).toContain("Requis: 0");
+    expect(message).toContain("Valeur: 1");
+  });
+
+  it("should return invalid image URLs", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    const messages = bpMinifyCode.displayMessages();
+    expect(messages).toEqual([
+      "Js non minifié: https://cdn.tagcommander.com/4340/tc_PoleEmploi_24.js",
+    ]);
+  });
+});
+
+describe("bpMinifyCode-HP", () => {
+  let result: Result;
+
+  beforeEach(() => {
+    const jsonData = readFileSync(
+      path.join(settings.workspace, "public/home-page/accueil/1.json"),
+      "utf-8"
+    );
+    result = JSON.parse(jsonData) as Result;
+  });
+
+  it("should have the correct title", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    expect(bpMinifyCode.title).toBe("Minifier le code");
+  });
+
+  it("should return false if there are invalid image URLs", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    expect(bpMinifyCode.checkIfValid()).toBe(false);
+  });
+
+  it("should return an acceptance message with correct values", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    const message = bpMinifyCode.getAcceptanceMessage();
+    expect(message).toContain("Requis: 0");
+    expect(message).toContain("Valeur: 3");
+  });
+
+  it("should return invalid image URLs", () => {
+    const bpMinifyCode = new BPMinifyCode(result);
+    const messages = bpMinifyCode.displayMessages();
+    expect(messages).toEqual([
+      "Css non minifié: https://guidances-applicatives.pole-emploi.fr/know/api/style?pkgId=429&version=-418178325",
+"Js non minifié: https://guidances-applicatives.pole-emploi.fr/know/api/engine?pkgId=429&version=-414658748",
+"Js non minifié: https://cdn.tagcommander.com/4340/tc_PoleEmploi_24.js"
     ]);
   });
 });
