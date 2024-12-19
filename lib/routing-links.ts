@@ -21,12 +21,12 @@ export const projects: Project[] = [
   {
     name: "chercher-ma-formation",
     pages: [
-      {      
+      {
         name: "soudeur",
-        numbers: [1]
-      }
-    ]
-  }
+        numbers: [1],
+      },
+    ],
+  },
 ]
 
 export interface NavItem {

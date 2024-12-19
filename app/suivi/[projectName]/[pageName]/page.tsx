@@ -8,9 +8,9 @@ import { AnalysisService } from "@/lib/analysis.service"
 import { EcoIndexCalculator } from "@/lib/eco-index"
 import { PublicPathExtractor } from "@/lib/json-lh-extractor.service"
 import { NavItemsBuilder, projects, reportNumberItem } from "@/lib/routing-links"
-import Link from "next/link"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
+import Link from "next/link"
 
 export default async function Page({
   params,
