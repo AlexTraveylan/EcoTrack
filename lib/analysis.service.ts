@@ -1,5 +1,6 @@
 import type { Result } from "lighthouse"
 import type { ByteWeight, EcoMetric, Requests, ResourceItem } from "./types"
+import { PublicPathExtractor } from "./json-lh-extractor.service"
 
 /*
 Service pour extraire les données de l'audit Lighthouse

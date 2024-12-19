@@ -1,3 +1,5 @@
+import { AnalysisService } from "./analysis.service"
+import { PublicPathExtractor } from "./json-lh-extractor.service"
 import type { EcoIndex, EcoMetric, Grade } from "./types"
 
 const quantilesDom: number[] = [

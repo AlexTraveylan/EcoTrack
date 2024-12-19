@@ -1,14 +1,13 @@
 import type { Result } from "lighthouse"
-import { PublicPathExtractor } from "./json-lh-extractor.service"
 
-interface BestPratice {
+interface BestPractice {
     title: string
     checkIfValid(): boolean
     getAcceptanceMessage(): string
     displayMessages(): string[]
 }
 
-export class BPLazyLoading implements BestPratice {
+export class BPLazyLoading implements BestPractice {
     public readonly title: string = "Mettre en place le Lazy-loading"
     private invalidUrls: string[] | null = null
     private readonly acceptanceValue = 0
@@ -45,12 +44,3 @@ export class BPLazyLoading implements BestPratice {
         return this.invalidUrls
     }
 }
-
-
-new PublicPathExtractor("home-page", "accueil").getLightHouseReport(1).then((result) => {
-    const bp = new BPLazyLoading(result)
-    console.log(bp.title)
-    console.log(bp.checkIfValid())
-    console.log(bp.displayMessages())
-    console.log(bp.getAcceptanceMessage())
-})
