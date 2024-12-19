@@ -41,11 +41,6 @@ export default async function Page({
         <div className="flex flex-col gap-4">
           <EcoIndexDisplay ecoIndex={ecoIndex} />
           <EcoMetricCard metrics={metrics} />
-          <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto">
-            {bestPractices.map((practice, index) => {
-              return <BestPracticeCard key={`Bp-n°${index}`} practice={practice} />
-            })}
-          </div>
           <div className="flex gap-4 w-full max-w-4xl mx-auto">
             <ChartRequests
               reqDetails={metrics.requests}
@@ -55,6 +50,11 @@ export default async function Page({
               reqDetails={metrics.byteWeight}
               title="Taille des requêtes - Répartition"
             />
+          </div>
+          <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto">
+            {bestPractices.map((practice, index) => {
+              return <BestPracticeCard key={`Bp-n°${index}`} practice={practice} />
+            })}
           </div>
         </div>
       </main>

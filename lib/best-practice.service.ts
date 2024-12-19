@@ -17,6 +17,7 @@ export function bestPracticesFactory(lhr: Result): BestPractice[] {
     new BPMinifyCode(lhr),
     new BPUnusedCode(lhr),
     new BPWebfont(lhr),
+    new BPHttpFlux(lhr),
   ]
 }
 
@@ -323,5 +324,51 @@ export class BPWebfont implements BestPractice {
       .map((item) => item.url)
 
     return [this.nbFonts, this.badFontUrls]
+  }
+}
+
+export class BPHttpFlux implements BestPractice {
+  public readonly title: string = "Utiliser les flux HTTP de manière responsable"
+  public readonly refCode: string = "AR-22 / AR-23"
+  public readonly impact: Impact[] = []
+  private readonly acceptanceValue = 0
+  private http1Urls: string[] | null = null
+
+  constructor(private readonly lhr: Result) {
+    this.lhr = lhr
+  }
+
+  checkIfValid(): boolean {
+    return this.getHttp1Urls().length === this.acceptanceValue
+  }
+
+  getAcceptanceMessage(): string {
+    return `Nombre de flux HTTP/1.1 (Tolerance: ${this.acceptanceValue}, Valeur: ${
+      this.getHttp1Urls().length
+    })`
+  }
+
+  displayMessages(): string[] {
+    return this.getHttp1Urls()
+  }
+
+  private getHttp1Urls(): string[] {
+    if (this.http1Urls !== null) {
+      return this.http1Urls
+    }
+
+    const audit = this.lhr.audits["network-requests"]
+    // @ts-expect-error I dont know how to get the type from lighthouse here.
+    const items = audit.details.items
+
+    if (!Array.isArray(items)) {
+      return []
+    }
+
+    this.http1Urls = items
+      .filter((item) => item.protocol === "http/1.1")
+      .map((item) => item.url)
+
+    return this.http1Urls
   }
 }
