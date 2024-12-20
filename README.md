@@ -17,6 +17,17 @@
 3. Installez les dépendances : `npm install`
 4. Lancez l'application : `npm run dev`
 
+## Récupérer automatiquement un json avec lighthouse
+
+Un exemple d'utilisation serait celui la
+
+```bash
+npm i -g lighthouse
+lighthouse https://www.francetravail.fr/accueil/ --output="json" --output-path="home-page/accueil/4.json" --only-categories="performance" --chrome-flags="--headless" --emulated-form-factor="desktop"
+```
+
+Pensez à mettre à jour la variable `projects` dans `lib/routing-links.ts`
+
 ## Comment Contribuer
 
 Nous accueillons chaleureusement les contributions ! Veuillez consulter notre [guide de contribution](CONTRIBUTING.md) pour des informations sur la façon de soumettre des pull requests, signaler des problèmes, ou proposer de nouvelles fonctionnalités.
