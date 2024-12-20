@@ -23,7 +23,7 @@ Un exemple d'utilisation serait celui la
 
 ```bash
 npm i -g lighthouse
-lighthouse https://www.francetravail.fr/accueil/ --output="json" --output-path="home-page/accueil/4.json" --only-categories="performance" --chrome-flags="--headless" --emulated-form-factor="desktop"
+lighthouse https://www.francetravail.fr/accueil/ --output="json" --output-path=".\public\home-page\accueil\4.json" --only-categories="performance" --chrome-flags="--headless" --emulated-form-factor="desktop"
 ```
 
 Pensez à mettre à jour la variable `projects` dans `lib/routing-links.ts`
