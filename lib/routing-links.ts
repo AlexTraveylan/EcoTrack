@@ -1,34 +1,3 @@
-type Page = {
-  name: string
-  numbers: number[]
-}
-
-type Project = {
-  name: string
-  pages: Page[]
-}
-
-export const projects: Project[] = [
-  {
-    name: "home-page",
-    pages: [
-      {
-        name: "accueil",
-        numbers: [1, 2, 3],
-      },
-    ],
-  },
-  {
-    name: "chercher-ma-formation",
-    pages: [
-      {
-        name: "soudeur",
-        numbers: [1],
-      },
-    ],
-  },
-]
-
 export interface NavItem {
   label: string
   href: string

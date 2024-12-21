@@ -41,3 +41,13 @@ export type EcoIndex = {
 }
 
 export type Impact = "dom" | "requests" | "size"
+
+export type Page = {
+  name: string
+  numbers: number[]
+}
+
+export type Project = {
+  name: string
+  pages: Page[]
+}

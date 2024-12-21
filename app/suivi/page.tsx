@@ -1,17 +1,18 @@
 import Header from "@/components/header"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { publicPathExtractor } from "@/lib/json-lh-extractor.service"
 import {
   NavItemsBuilder,
   pageItem,
   projectItem,
-  projects,
   reportNumberItem,
 } from "@/lib/routing-links"
 import Link from "next/link"
 
 export default async function Page() {
   const navigation = new NavItemsBuilder().withHome().withSuivi().getItems()
+  const projects = await publicPathExtractor.getProjectsPaths()
 
   return (
     <>
