@@ -1,4 +1,6 @@
+import { promises as fs } from "fs"
 import type { Result } from "lighthouse"
+import path from "path"
 import { getProjectDataPath } from "./settings"
 import { Project, PublicJsonPath } from "./types"
 
@@ -39,31 +41,32 @@ class PublicPathExtractor implements JsonLhExtractor {
   }
 
   public async getProjectsPaths(): Promise<Project[]> {
-    return new Promise((resolve) => {
-      resolve(projects)
-    })
+    const projectsDir = path.join(process.cwd(), "public")
+
+    const projects: Project[] = []
+
+    const projectNames = await fs.readdir(projectsDir)
+    for (const projectName of projectNames) {
+      const projectPath = path.join(projectsDir, projectName)
+      const pageNames = await fs.readdir(projectPath)
+
+      const pages = []
+      for (const pageName of pageNames) {
+        const pagePath = path.join(projectPath, pageName)
+        const fileNames = await fs.readdir(pagePath)
+
+        const numbers = fileNames
+          .filter((fileName) => fileName.endsWith(".json"))
+          .map((fileName) => parseInt(fileName.replace(".json", "")))
+
+        pages.push({ name: pageName, numbers })
+      }
+
+      projects.push({ name: projectName, pages })
+    }
+
+    return projects
   }
 }
 
 export const publicPathExtractor = new PublicPathExtractor()
-
-export const projects: Project[] = [
-  {
-    name: "home-page",
-    pages: [
-      {
-        name: "accueil",
-        numbers: [1, 2, 3],
-      },
-    ],
-  },
-  {
-    name: "chercher-ma-formation",
-    pages: [
-      {
-        name: "soudeur",
-        numbers: [1],
-      },
-    ],
-  },
-]
