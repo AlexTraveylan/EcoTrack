@@ -20,26 +20,44 @@ interface JsonLhExtractor {
 }
 
 class PublicPathExtractor implements JsonLhExtractor {
+  private instance: PublicPathExtractor | null = null
   private projects: Project[] | null = null
+  private cache = new Map<string, Promise<Result>>()
+
+  constructor() {
+    if (this.instance) {
+      return this.instance
+    }
+    this.instance = this
+  }
 
   async getLightHouseReport({
     projectName,
     pageName,
     reportNumber,
   }: PublicJsonPath): Promise<Result> {
-    const result = await fetch(
-      getProjectDataPath({
-        projectName: projectName,
-        pageName: pageName,
-        reportNumber,
-      })
-    )
+    const cacheKey = `${projectName}-${pageName}-${reportNumber}`
 
-    if (!result.ok) {
-      throw new Error(`${reportNumber} not found on project ${projectName}`)
+    const cached = this.cache.get(cacheKey)
+    if (cached) {
+      return cached
     }
 
-    return result.json()
+    const promise = fetch(
+      getProjectDataPath({
+        projectName,
+        pageName,
+        reportNumber,
+      })
+    ).then((result) => {
+      if (!result.ok) {
+        throw new Error(`${reportNumber} not found on project ${projectName}`)
+      }
+      return result.json()
+    })
+
+    this.cache.set(cacheKey, promise)
+    return promise
   }
 
   public async getProjectsPaths(): Promise<Project[]> {
@@ -70,7 +88,6 @@ class PublicPathExtractor implements JsonLhExtractor {
 
       projects.push({ name: projectName, pages })
     }
-    console.log(projects)
 
     this.projects = projects
     return projects
