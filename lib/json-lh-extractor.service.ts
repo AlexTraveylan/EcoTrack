@@ -20,6 +20,8 @@ interface JsonLhExtractor {
 }
 
 class PublicPathExtractor implements JsonLhExtractor {
+  private projects: Project[] | null = null
+
   async getLightHouseReport({
     projectName,
     pageName,
@@ -41,6 +43,10 @@ class PublicPathExtractor implements JsonLhExtractor {
   }
 
   public async getProjectsPaths(): Promise<Project[]> {
+    if (this.projects) {
+      return this.projects
+    }
+
     const projectsDir = path.join(process.cwd(), "public")
 
     const projects: Project[] = []
@@ -64,7 +70,9 @@ class PublicPathExtractor implements JsonLhExtractor {
 
       projects.push({ name: projectName, pages })
     }
+    console.log(projects)
 
+    this.projects = projects
     return projects
   }
 }
