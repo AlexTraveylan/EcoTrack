@@ -6,7 +6,7 @@ import Header from "@/components/header"
 import { AnalysisService } from "@/lib/analysis.service"
 import { bestPracticesFactory } from "@/lib/best-practice.service"
 import { EcoIndexCalculator } from "@/lib/eco-index"
-import { publicPathExtractor } from "@/lib/json-lh-extractor.service"
+import { jsonLhExtractorFactory } from "@/lib/folder-services/factories"
 import { NavItemsBuilder } from "@/lib/routing-links"
 
 export default async function Page({
@@ -20,7 +20,7 @@ export default async function Page({
 }) {
   const { projectName, pageName, reportNumber } = await params
 
-  const result = await publicPathExtractor.getLightHouseReport({
+  const result = await jsonLhExtractorFactory.getLightHouseReport({
     projectName,
     pageName,
     reportNumber,

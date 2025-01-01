@@ -1,7 +1,7 @@
 import Header from "@/components/header"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { publicPathExtractor } from "@/lib/json-lh-extractor.service"
+import { jsonLhExtractorFactory } from "@/lib/folder-services/factories"
 import { NavItemsBuilder, pageItem, reportNumberItem } from "@/lib/routing-links"
 import Link from "next/link"
 
@@ -18,7 +18,7 @@ export default async function Page({
     .getItems()
 
   // Trouver le projet correspondant
-  const projects = await publicPathExtractor.getProjectsPaths()
+  const projects = await jsonLhExtractorFactory.getProjectsPaths()
   const project = projects.find((p) => p.name === projectName)
 
   if (!project) {

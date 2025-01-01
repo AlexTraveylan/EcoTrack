@@ -1,23 +1,9 @@
 import { promises as fs } from "fs"
 import type { Result } from "lighthouse"
 import path from "path"
-import { getProjectDataPath } from "./settings"
-import { Project, PublicJsonPath } from "./types"
-
-/*
-Interface pour extraire les données de l'audit Lighthouse
-Depuis le fichier json dans le dossier public
-
-Peut évoluer pour le recuperer depuis une API d'un téléchargement utilisateur
-*/
-export interface JsonLhExtractor {
-  getLightHouseReport({
-    projectName,
-    pageName,
-    reportNumber,
-  }: PublicJsonPath): Promise<Result>
-  getProjectsPaths(): Promise<Project[]>
-}
+import { getProjectDataPath } from "../settings"
+import { Project, PublicJsonPath } from "../types"
+import { JsonLhExtractor } from "./interfaces"
 
 class PublicPathExtractor implements JsonLhExtractor {
   private instance: PublicPathExtractor | null = null

@@ -6,9 +6,9 @@ import {
   _Object,
 } from "@aws-sdk/client-s3"
 import type { Result } from "lighthouse"
-import { JsonLhExtractor } from "./json-lh-extractor.service"
-import { settings } from "./settings"
-import type { Page, Project, PublicJsonPath } from "./types"
+import { settings } from "../settings"
+import type { Page, Project, PublicJsonPath } from "../types"
+import { JsonLhExtractor } from "./interfaces"
 
 export class SupabaseService implements JsonLhExtractor {
   private projects: Project[] | null = null
@@ -187,6 +187,4 @@ const client = new S3Client({
   },
 })
 
-const supabaseService = new SupabaseService(client)
-const projects = await supabaseService.getProjectsPaths()
-console.log("Projects:", projects)
+export const supabaseService = new SupabaseService(client)
