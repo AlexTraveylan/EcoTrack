@@ -10,7 +10,7 @@ Depuis le fichier json dans le dossier public
 
 Peut évoluer pour le recuperer depuis une API d'un téléchargement utilisateur
 */
-interface JsonLhExtractor {
+export interface JsonLhExtractor {
   getLightHouseReport({
     projectName,
     pageName,
