@@ -60,11 +60,25 @@ export const JsonUploadForm = () => {
         return
       }
 
-      // TODO : envoyer les données pour de vrai
+      const formData = new FormData()
+      formData.append("projectName", values.projectName)
+      formData.append("pageName", values.pageName)
+      formData.append("jsonFile", values.jsonFile)
+
+      const response = await fetch("/api/uploadFile", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || "Erreur lors de l'envoi")
+      }
+
+      const data = await response.json()
 
       form.reset()
-
-      console.log("Téléchargement réussi")
+      console.log("Téléchargement réussi", data)
     } catch (error) {
       console.error("Erreur lors du téléchargement:", error)
     }
