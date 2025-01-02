@@ -10,12 +10,20 @@ import { settings } from "../settings"
 import type { Page, Project, PublicJsonPath } from "../types"
 import { JsonLhExtractor, fileActions } from "./interfaces"
 
-export class SupabaseService implements JsonLhExtractor, fileActions {
+export class S3AmazonService implements JsonLhExtractor, fileActions {
   private projects: Project[] | null = null
   private client: S3Client
 
-  constructor(client: S3Client) {
-    this.client = client
+  constructor() {
+    this.client = new S3Client({
+      forcePathStyle: true,
+      region: settings.s3Region,
+      endpoint: settings.s3Endpoint,
+      credentials: {
+        accessKeyId: settings.s3AccessKeyId,
+        secretAccessKey: settings.s3SecretAccessKey,
+      },
+    })
   }
 
   private async listBucketContents(bucketName: string) {
@@ -176,15 +184,3 @@ export class SupabaseService implements JsonLhExtractor, fileActions {
     }
   }
 }
-
-const client = new S3Client({
-  forcePathStyle: true,
-  region: settings.s3Region,
-  endpoint: settings.s3Endpoint,
-  credentials: {
-    accessKeyId: settings.s3AccessKeyId,
-    secretAccessKey: settings.s3SecretAccessKey,
-  },
-})
-
-export const supabaseService = new SupabaseService(client)
