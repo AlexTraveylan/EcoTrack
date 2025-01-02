@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AnalysisService } from "@/lib/analysis.service"
 import { EcoIndexCalculator } from "@/lib/eco-index"
-import { publicPathExtractor } from "@/lib/json-lh-extractor.service"
+import { JsonLhExtractorFactory } from "@/lib/folder-services/factories"
 import { NavItemsBuilder, reportNumberItem } from "@/lib/routing-links"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
@@ -27,7 +27,7 @@ export default async function Page({
     .getItems()
 
   // Trouver le projet et la page correspondants
-  const projects = await publicPathExtractor.getProjectsPaths()
+  const projects = await JsonLhExtractorFactory.getInstance().getProjectsPaths()
   const project = projects.find((p) => p.name === projectName)
   const page = project?.pages.find((p) => p.name === pageName)
 
@@ -52,7 +52,7 @@ export default async function Page({
   }
 
   for (const reportNumber of page.numbers) {
-    const result = await publicPathExtractor.getLightHouseReport({
+    const result = await JsonLhExtractorFactory.getInstance().getLightHouseReport({
       projectName,
       pageName,
       reportNumber,
