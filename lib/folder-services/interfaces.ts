@@ -14,6 +14,7 @@ export interface JsonLhExtractor {
     reportNumber,
   }: PublicJsonPath): Promise<Result>
   getProjectsPaths(): Promise<Project[]>
+  refreshProjectsPaths(): void
 }
 
 /*
