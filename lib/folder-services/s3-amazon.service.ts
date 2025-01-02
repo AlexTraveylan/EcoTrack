@@ -26,6 +26,10 @@ export class S3AmazonService implements JsonLhExtractor, fileActions {
     })
   }
 
+  public refreshProjectsPaths() {
+    this.projects = null
+  }
+
   private async listBucketContents(bucketName: string) {
     try {
       const command = new ListObjectsV2Command({
