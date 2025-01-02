@@ -22,6 +22,7 @@ export async function POST(request: Request) {
     try {
       jsonContent = JSON.parse(fileContent)
     } catch (e) {
+      console.error("Erreur lors de la lecture du fichier JSON:", e)
       return NextResponse.json(
         { error: "Le fichier doit être un JSON valide" },
         { status: 400 }
