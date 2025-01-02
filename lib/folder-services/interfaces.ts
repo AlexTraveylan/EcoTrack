@@ -15,3 +15,17 @@ export interface JsonLhExtractor {
   }: PublicJsonPath): Promise<Result>
   getProjectsPaths(): Promise<Project[]>
 }
+
+/*
+Interface pour les actions sur les fichiers
+
+Peut évoluer pour ajouter des actions comme la suppression de fichier
+*/
+export interface fileActions {
+  uploadJsonFile(
+    bucketName: string,
+    projectName: string,
+    pageName: string,
+    jsonContent: Result
+  ): Promise<string>
+}

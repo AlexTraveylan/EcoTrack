@@ -8,9 +8,9 @@ import {
 import type { Result } from "lighthouse"
 import { settings } from "../settings"
 import type { Page, Project, PublicJsonPath } from "../types"
-import { JsonLhExtractor } from "./interfaces"
+import { JsonLhExtractor, fileActions } from "./interfaces"
 
-export class SupabaseService implements JsonLhExtractor {
+export class SupabaseService implements JsonLhExtractor, fileActions {
   private projects: Project[] | null = null
   private client: S3Client
 
@@ -120,7 +120,7 @@ export class SupabaseService implements JsonLhExtractor {
     bucketName: string,
     projectName: string,
     pageName: string,
-    jsonContent: any
+    jsonContent: Result
   ): Promise<string> {
     try {
       // 1. Obtenir la liste des fichiers existants dans ce dossier
@@ -179,8 +179,8 @@ export class SupabaseService implements JsonLhExtractor {
 
 const client = new S3Client({
   forcePathStyle: true,
-  region: "eu-central-1",
-  endpoint: "https://aohkrtxnzxbmgznmhtic.supabase.co/storage/v1/s3",
+  region: settings.s3Region,
+  endpoint: settings.s3Endpoint,
   credentials: {
     accessKeyId: settings.s3AccessKeyId,
     secretAccessKey: settings.s3SecretAccessKey,
