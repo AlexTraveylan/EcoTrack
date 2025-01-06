@@ -60,6 +60,7 @@ jobs:
       - name: Bump version and commit
         if: github.ref == 'refs/heads/main'
         run: |
+          # Configure git to use GitHub Actions
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
@@ -72,9 +73,12 @@ jobs:
             VERSION_TYPE="patch"
           fi
 
+          # Bump version
           npm version $VERSION_TYPE --no-git-tag-version
 
+          # Make a commit
           git add package.json
-          git commit --amend --no-edit
+          git commit -m "${{ github.event.head_commit.message}} [+ update version to: $(cat package.json | jq -r .version)]"
 
-          git push --force-with-lease
+          # Push commit without triggering a new build
+          git push origin HEAD:$GITHUB_REF
