@@ -58,7 +58,7 @@ jobs:
         run: npm run build
 
       - name: Bump version and commit
-        if: github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, '#major') || contains(github.event.head_commit.message, '#minor') || contains(github.event.head_commit.message, '#patch')
+        if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -77,4 +77,4 @@ jobs:
           git add package.json
           git commit --amend --no-edit
 
-          git push origin HEAD:$GITHUB_REF
+          git push --force-with-lease
