@@ -15,7 +15,7 @@ export class JsonLhExtractorFactory {
       return new PublicPathExtractor()
     }
 
-    if (settings.fileExtractStrategy === "s3-amazon") {
+    if (settings.fileExtractStrategy === "s3-bucket") {
       return new S3AmazonService()
     }
 
