@@ -38,7 +38,7 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
                 settings.domT.acceptable
               )}`}
             >
-              {formatNumber(metrics.dom)} ms
+              {formatNumber(metrics.dom)}
             </p>
           </div>
           {/* Nombre total de requêtes */}
@@ -104,8 +104,8 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
         <div className="grid grid-cols-3 w-full gap-4">
           <div>
             <strong>{"Taille du DOM"}</strong>
-            <p>Optimal : ≤ {formatNumber(settings.domT.target)} ms</p>
-            <p>Acceptable : ≤ {formatNumber(settings.domT.acceptable)} ms</p>
+            <p>Optimal : ≤ {formatNumber(settings.domT.target)}</p>
+            <p>Acceptable : ≤ {formatNumber(settings.domT.acceptable)}</p>
           </div>
           <div>
             <strong>{"Nombre de requêtes"}</strong>
