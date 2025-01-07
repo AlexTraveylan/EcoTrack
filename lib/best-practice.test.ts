@@ -305,7 +305,7 @@ describe("BPUnusedCode-TMF", () => {
   it("should return invalid image URLs", () => {
     const bpUnusedCode = new BPUnusedCode(result)
     const messages = bpUnusedCode.displayMessages()
-    expect(messages).toEqual(["Css inutilisé: 89.62", "Js inutilisé: 63.21"])
+    expect(messages).toEqual(["Css inutilisé: 89.62 %", "Js inutilisé: 63.21 %"])
   })
 })
 
@@ -341,7 +341,7 @@ describe("BPUnusedCode-HP", () => {
   it("should return invalid image URLs", () => {
     const bpUnusedCode = new BPUnusedCode(result)
     const messages = bpUnusedCode.displayMessages()
-    expect(messages).toEqual(["Css inutilisé: 91.27", "Js inutilisé: 50.93"])
+    expect(messages).toEqual(["Css inutilisé: 91.27 %", "Js inutilisé: 50.93 %"])
   })
 })
 

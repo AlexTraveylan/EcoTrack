@@ -22,9 +22,11 @@ export class AnalysisService implements Analyzer {
     const [requests, byteWeight] = this.getRequests()
     const date = this.getDate()
     const dom = this.getDom()
+    const url = this.lhr.requestedUrl
 
     return {
       date,
+      url,
       dom,
       requests,
       byteWeight,

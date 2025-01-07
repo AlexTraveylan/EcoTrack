@@ -18,7 +18,7 @@ const EcoIndexDisplay: React.FC<{ ecoIndex: EcoIndex }> = ({ ecoIndex }) => {
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-xl font-bold">Eco Index</CardTitle>
+        <CardTitle>Eco Index</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex items-center justify-center">

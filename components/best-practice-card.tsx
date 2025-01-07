@@ -1,5 +1,11 @@
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { BestPractice } from "@/lib/best-practice.service"
 import type { Impact } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -56,7 +62,7 @@ const BestPracticeCard: React.FC<{ practice: BestPractice }> = ({ practice }) =>
               )}
               {practice.title}
             </CardTitle>
-            <p className="text-sm text-gray-500 mt-1">Ref: {practice.refCode}</p>
+            <CardDescription>Ref: {practice.refCode}</CardDescription>
           </div>
           <div className="flex gap-2">
             {practice.impact.map((imp) => (
@@ -74,13 +80,18 @@ const BestPracticeCard: React.FC<{ practice: BestPractice }> = ({ practice }) =>
       </CardHeader>
       <CardContent>
         {messages.length > 0 ? (
-          <ul className="space-y-2">
-            {messages.map((message, index) => (
-              <li key={index} className="text-sm">
-                • {message}
-              </li>
-            ))}
-          </ul>
+          <details>
+            <summary className="text-sm text-muted-foreground cursor-pointer">
+              {"Afficher les détails"}
+            </summary>
+            <ul className="space-y-2 mt-2">
+              {messages.map((message, index) => (
+                <li key={index} className="text-sm">
+                  {message}
+                </li>
+              ))}
+            </ul>
+          </details>
         ) : (
           <p className="text-sm text-gray-500 italic">{"Rien à afficher"}</p>
         )}

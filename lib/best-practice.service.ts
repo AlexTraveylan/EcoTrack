@@ -217,8 +217,8 @@ export class BPUnusedCode implements BestPractice {
 
   displayMessages(): string[] {
     return [
-      `Css inutilisé: ${(this.getUnusedCssRatio() * 100).toFixed(2)}`,
-      `Js inutilisé: ${(this.getUnusedJsRatio() * 100).toFixed(2)}`,
+      `Css inutilisé: ${(this.getUnusedCssRatio() * 100).toFixed(2)} %`,
+      `Js inutilisé: ${(this.getUnusedJsRatio() * 100).toFixed(2)} %`,
     ]
   }
 

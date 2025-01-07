@@ -3,6 +3,7 @@ import ChartRequests from "@/components/chart-requests"
 import EcoMetricCard from "@/components/eco-metric-card"
 import EcoIndexDisplay from "@/components/ecoindex-card"
 import Header from "@/components/header"
+import ReportInfos from "@/components/report-infos"
 import { AnalysisService } from "@/lib/analysis.service"
 import { bestPracticesFactory } from "@/lib/best-practice.service"
 import { EcoIndexCalculator } from "@/lib/eco-index"
@@ -40,8 +41,9 @@ export default async function Page({
   return (
     <>
       <Header navigation={navigation} />
-      <main>
+      <main className="py-4">
         <div className="flex flex-col gap-4">
+          <ReportInfos metrics={metrics} />
           <EcoIndexDisplay ecoIndex={ecoIndex} />
           <EcoMetricCard metrics={metrics} />
           <div className="flex gap-4 w-full max-w-4xl mx-auto">

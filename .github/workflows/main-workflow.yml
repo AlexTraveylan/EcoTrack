@@ -77,7 +77,7 @@ jobs:
           npm version $VERSION_TYPE --no-git-tag-version
 
           # Make a commit
-          git add package.json
+          git add package.json package-lock.json
           git commit -m "${{ github.event.head_commit.message}} [+ update version to: $(cat package.json | jq -r .version)]"
 
           # Push commit without triggering a new build

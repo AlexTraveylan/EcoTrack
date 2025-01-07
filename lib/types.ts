@@ -19,6 +19,7 @@ export type ByteWeight = RequestDetails
 
 export type EcoMetric = {
   date: Date
+  url?: string
   dom: number
   requests: Requests
   byteWeight: ByteWeight
