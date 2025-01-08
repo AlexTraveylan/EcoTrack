@@ -30,7 +30,7 @@ function extractUrls(result: Result, key: string): string[] {
     return []
   }
 
-  return items.map((item) => item.url)
+  return items.filter((item) => !!item.url).map((item) => item.url)
 }
 
 export class BPLazyLoading implements BestPractice {
