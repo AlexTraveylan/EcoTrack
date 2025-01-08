@@ -86,41 +86,43 @@ export default async function Page({
     <>
       <Header navigation={navigation} />
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">{page.name}</h1>
-          <p className="text-gray-600">{`Projet: ${project.name}`}</p>
+        <div className="flex flex-col gap-4">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">{page.name}</h1>
+            <p className="text-gray-600">{`Projet: ${project.name}`}</p>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                Rapports disponibles
+                <span className="text-sm text-gray-500">
+                  {page.numbers.length} rapport
+                  {page.numbers.length > 1 ? "s" : ""}
+                </span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {page.numbers.map((number) => (
+                  <Link
+                    key={number}
+                    href={reportNumberItem(projectName, pageName, number).href}
+                    className={buttonVariants({
+                      variant: "outline",
+                      size: "lg",
+                      className: "w-full h-24 flex flex-col items-center justify-center",
+                    })}
+                  >
+                    <span className="text-2xl font-bold">N°{number}</span>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <ChartLineHistory chartDataRecord={chartDataRecord} />
         </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              Rapports disponibles
-              <span className="text-sm text-gray-500">
-                {page.numbers.length} rapport
-                {page.numbers.length > 1 ? "s" : ""}
-              </span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {page.numbers.map((number) => (
-                <Link
-                  key={number}
-                  href={reportNumberItem(projectName, pageName, number).href}
-                  className={buttonVariants({
-                    variant: "outline",
-                    size: "lg",
-                    className: "w-full h-24 flex flex-col items-center justify-center",
-                  })}
-                >
-                  <span className="text-2xl font-bold">N°{number}</span>
-                </Link>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <ChartLineHistory chartDataRecord={chartDataRecord} />
       </main>
     </>
   )
