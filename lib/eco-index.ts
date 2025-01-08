@@ -58,7 +58,7 @@ export class EcoIndexCalculator {
 
     const domScore = getQuantile(quantilesDom, this.metrics.dom)
     const reqScore = getQuantile(quantilesReq, this.metrics.requests.total)
-    const sizeScore = getQuantile(quantilesSize, this.metrics.byteWeight.total)
+    const sizeScore = getQuantile(quantilesSize, this.metrics.byteWeight.total / 1000)
 
     this.score = Math.round(100 - (5 * (3 * domScore + 2 * reqScore + sizeScore)) / 6)
 

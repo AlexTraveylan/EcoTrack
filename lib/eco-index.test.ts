@@ -21,17 +21,17 @@ describe("EcoIndexCalculator-HP", () => {
 
   it("should have the correct score", () => {
     const ecoIndex = calculator.getEcoIndex()
-    expect(ecoIndex.score).toBe(45)
+    expect(ecoIndex.score).toBe(53)
   })
 
   it("should have the correct gCo2e", () => {
     const ecoIndex = calculator.getEcoIndex()
-    expect(ecoIndex.gCo2e).toBe(2.1)
+    expect(ecoIndex.gCo2e).toBe(1.94)
   })
 
   it("should have the correct water", () => {
     const ecoIndex = calculator.getEcoIndex()
-    expect(ecoIndex.water).toBe(3.15)
+    expect(ecoIndex.water).toBe(2.91)
   })
 
   it("should have the correct grade", () => {
