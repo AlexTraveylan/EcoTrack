@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { EcoMetric } from "@/lib/types"
 import { format } from "date-fns"
 import { fr } from "date-fns/locale"
-import { Badge } from "./ui/badge"
 
 const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
   return (
@@ -10,9 +9,11 @@ const EcoMetricCard: React.FC<{ metrics: EcoMetric }> = ({ metrics }) => {
       <CardHeader>
         <CardTitle>Information du rapport</CardTitle>
       </CardHeader>
-      <CardContent className="flex gap-4">
-        <Badge variant="outline">{format(metrics.date, "PPP", { locale: fr })}</Badge>
-        {metrics.url && <Badge variant="outline">{metrics.url}</Badge>}
+      <CardContent className="flex justify-between">
+        <div className="text-sm text-muted-foreground">
+          {format(metrics.date, "PPP", { locale: fr })}
+        </div>
+        {metrics.url && <div className="text-sm text-muted-foreground">{metrics.url}</div>}
       </CardContent>
     </Card>
   )
