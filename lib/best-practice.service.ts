@@ -26,7 +26,7 @@ function extractUrls(result: Result, key: string): string[] {
   // @ts-expect-error I dont know how to get the type from lighthouse here.
   const items = audit.details.items
 
-  if (!Array.isArray(items)) {
+  if (!Array.isArray(items) || items.length === 0) {
     return []
   }
 
@@ -231,7 +231,7 @@ export class BPUnusedCode implements BestPractice {
     // @ts-expect-error I dont know how to get the type from lighthouse here.
     const items = audit.details.items
 
-    if (!Array.isArray(items)) {
+    if (!Array.isArray(items) || items.length === 0) {
       return 0
     }
 
@@ -252,7 +252,7 @@ export class BPUnusedCode implements BestPractice {
     // @ts-expect-error I dont know how to get the type from lighthouse here.
     const items = audit.details.items
 
-    if (!Array.isArray(items)) {
+    if (!Array.isArray(items) || items.length === 0) {
       return 0
     }
 
@@ -312,7 +312,7 @@ export class BPWebfont implements BestPractice {
     // @ts-expect-error I dont know how to get the type from lighthouse here.
     const items = audit.details.items
 
-    if (!Array.isArray(items)) {
+    if (!Array.isArray(items) || items.length === 0) {
       return [0, []]
     }
 
@@ -361,7 +361,7 @@ export class BPHttpFlux implements BestPractice {
     // @ts-expect-error I dont know how to get the type from lighthouse here.
     const items = audit.details.items
 
-    if (!Array.isArray(items)) {
+    if (!Array.isArray(items) || items.length === 0) {
       return []
     }
 
