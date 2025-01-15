@@ -9,6 +9,7 @@ export const settings = {
   bucketName: process.env.S3_BUCKET_NAME || "",
   baseUrl: process.env.BASE_URL || "http://localhost:3000",
   fileExtractStrategy: process.env.FILE_EXTRACT_STRATEGY || "public-folder", // public-folder | s3-bucket
+  googleInsightsApiKey: process.env.GOOGLE_INSIGHTS_API_KEY || "",
   domT: { target: 800, acceptable: 1500 },
   requestsT: { target: 43, acceptable: 71 },
   sizeT: { target: 1100000, acceptable: 2300000 }, // unit: Bytes

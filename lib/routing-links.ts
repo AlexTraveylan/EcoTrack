@@ -13,6 +13,18 @@ export const suiviItem: NavItem = {
   href: "/suivi",
 }
 
+export const scanItem: NavItem = {
+  label: "Scan",
+  href: "/scan",
+}
+
+export const scanUrlItem = (url: string): NavItem => {
+  return {
+    label: url,
+    href: `/scan/${url}`,
+  }
+}
+
 export const projectItem = (projectName: string): NavItem => {
   return {
     label: projectName,
@@ -63,8 +75,26 @@ export class NavItemsBuilder {
     return this
   }
 
+  public withScan(): NavItemsBuilder {
+    if (this.projectItems.length !== 1 || this.projectItems[0].label !== "Accueil") {
+      throw new Error("Scan page should be the second page")
+    }
+
+    this.projectItems.push(scanItem)
+    return this
+  }
+
+  public withScanUrl(url: string): NavItemsBuilder {
+    if (this.projectItems.length !== 2 || this.projectItems[1].label !== "Scan") {
+      throw new Error("Scan url page should be the third page")
+    }
+
+    this.projectItems.push(scanUrlItem(url))
+    return this
+  }
+
   public withProject(projectName: string): NavItemsBuilder {
-    if (this.projectItems.length !== 2) {
+    if (this.projectItems.length !== 2 || this.projectItems[1].label !== "Suivi") {
       throw new Error("Project page should be the third page")
     }
 
