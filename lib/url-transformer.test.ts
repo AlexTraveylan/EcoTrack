@@ -1,0 +1,113 @@
+import { URLCrypto } from "./url-transformer.service"
+
+describe("URLCrypto", () => {
+  // Tests d'encodage
+  describe("toBase64Url", () => {
+    test("devrait encoder une URL valide", () => {
+      const url = "https://www.alextraveylan.fr/fr"
+      const encoded = URLCrypto.toBase64Url(url)
+
+      expect(encoded).toBeDefined()
+      expect(encoded).toContain("-")
+      expect(encoded.split("-")).toHaveLength(2)
+    })
+
+    test("devrait rejeter une URL invalide", () => {
+      const invalidUrl = "not-a-url"
+
+      expect(() => {
+        URLCrypto.toBase64Url(invalidUrl)
+      }).toThrow("URL invalide")
+    })
+
+    test("devrait gérer les URLs avec des caractères spéciaux", () => {
+      const urlWithSpecialChars = "https://example.com/path?param=value&special=@#$"
+      const encoded = URLCrypto.toBase64Url(urlWithSpecialChars)
+
+      expect(encoded).toBeDefined()
+      expect(URLCrypto.fromBase64Url(encoded)).toBe(urlWithSpecialChars)
+    })
+  })
+
+  // Tests de décodage
+  describe("fromBase64Url", () => {
+    test("devrait décoder une string encodée valide", () => {
+      const originalUrl = "https://www.alextraveylan.fr/fr"
+      const encoded = URLCrypto.toBase64Url(originalUrl)
+      const decoded = URLCrypto.fromBase64Url(encoded)
+
+      expect(decoded).toBe(originalUrl)
+    })
+
+    test("devrait rejeter une string encodée invalide", () => {
+      const invalidEncoded = "invalid-encoded-string"
+
+      expect(() => {
+        URLCrypto.fromBase64Url(invalidEncoded)
+      }).toThrow("Décodage impossible")
+    })
+
+    test("devrait rejeter une string avec un hash incorrect", () => {
+      const encoded = URLCrypto.toBase64Url("https://www.alextraveylan.fr/fr")
+      const corruptedEncoded = encoded.slice(0, -1) + "X"
+
+      expect(() => {
+        URLCrypto.fromBase64Url(corruptedEncoded)
+      }).toThrow("Décodage impossible")
+    })
+  })
+
+  // Tests de validation
+  describe("isValid", () => {
+    test("devrait retourner true pour une string encodée valide", () => {
+      const url = "https://www.alextraveylan.fr/fr"
+      const encoded = URLCrypto.toBase64Url(url)
+
+      expect(URLCrypto.isValid(encoded)).toBe(true)
+    })
+
+    test("devrait retourner false pour une string encodée invalide", () => {
+      expect(URLCrypto.isValid("invalid-string")).toBe(false)
+    })
+  })
+
+  // Tests de cas limites
+  describe("edge cases", () => {
+    test("devrait gérer les URLs très longues", () => {
+      const longUrl = "https://example.com/" + "a".repeat(1000)
+      const encoded = URLCrypto.toBase64Url(longUrl)
+      const decoded = URLCrypto.fromBase64Url(encoded)
+
+      expect(decoded).toBe(longUrl)
+    })
+
+    test("devrait gérer les URLs avec des fragments", () => {
+      const urlWithFragment = "https://example.com/page#section"
+      const encoded = URLCrypto.toBase64Url(urlWithFragment)
+      const decoded = URLCrypto.fromBase64Url(encoded)
+
+      expect(decoded).toBe(urlWithFragment)
+    })
+
+    test("devrait gérer les URLs avec des query params complexes", () => {
+      const urlWithParams = "https://example.com/search?q=test&filter[]=1&filter[]=2"
+      const encoded = URLCrypto.toBase64Url(urlWithParams)
+      const decoded = URLCrypto.fromBase64Url(encoded)
+
+      expect(decoded).toBe(urlWithParams)
+    })
+  })
+
+  // Test de round-trip
+  describe("round-trip", () => {
+    test("devrait préserver l'URL après encodage/décodage multiple", () => {
+      const originalUrl = "https://www.alextraveylan.fr/fr"
+      const encoded1 = URLCrypto.toBase64Url(originalUrl)
+      const decoded1 = URLCrypto.fromBase64Url(encoded1)
+      const encoded2 = URLCrypto.toBase64Url(decoded1)
+      const decoded2 = URLCrypto.fromBase64Url(encoded2)
+
+      expect(decoded2).toBe(originalUrl)
+    })
+  })
+})
