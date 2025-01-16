@@ -7,6 +7,7 @@ export class URLTransformer {
     try {
       new URL(url)
     } catch (error) {
+      console.log(error)
       throw new Error(`URL invalide: ${url}`)
     }
 
