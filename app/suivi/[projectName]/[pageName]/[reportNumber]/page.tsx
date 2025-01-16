@@ -1,14 +1,29 @@
-import BestPracticeCard from "@/components/best-practice-card"
-import ChartRequests from "@/components/chart-requests"
-import EcoMetricCard from "@/components/eco-metric-card"
-import EcoIndexDisplay from "@/components/ecoindex-card"
 import Header from "@/components/header"
 import ReportInfos from "@/components/report-infos"
+import { Skeleton } from "@/components/ui/skeleton"
 import { AnalysisService } from "@/lib/analysis.service"
 import { bestPracticesFactory } from "@/lib/best-practice.service"
 import { EcoIndexCalculator } from "@/lib/eco-index"
 import { JsonLhExtractorFactory } from "@/lib/folder-services/factories"
 import { NavItemsBuilder } from "@/lib/routing-links"
+
+import dynamic from "next/dynamic"
+
+const DynamicEcoIndexDisplay = dynamic(() => import("@/components/ecoindex-card"), {
+  loading: () => <Skeleton className="w-full max-w-4xl mx-auto h-[200px]" />,
+})
+
+const DynamicEcoMetricCard = dynamic(() => import("@/components/eco-metric-card"), {
+  loading: () => <Skeleton className="w-full max-w-4xl mx-auto h-[200px]" />,
+})
+
+const DynamicChartRequests = dynamic(() => import("@/components/chart-requests"), {
+  loading: () => <Skeleton className="w-full max-w-4xl mx-auto h-[200px]" />,
+})
+
+const DynamicBestPracticeCard = dynamic(() => import("@/components/best-practice-card"), {
+  loading: () => <Skeleton className="w-full max-w-4xl mx-auto h-[200px]" />,
+})
 
 export default async function Page({
   params,
@@ -44,21 +59,21 @@ export default async function Page({
       <main className="py-4">
         <div className="flex flex-col gap-4">
           <ReportInfos metrics={metrics} />
-          <EcoIndexDisplay ecoIndex={ecoIndex} />
-          <EcoMetricCard metrics={metrics} />
+          <DynamicEcoIndexDisplay ecoIndex={ecoIndex} />
+          <DynamicEcoMetricCard metrics={metrics} />
           <div className="flex gap-4 w-full max-w-4xl mx-auto">
-            <ChartRequests
+            <DynamicChartRequests
               reqDetails={metrics.requests}
               title="Nombre de requêtes - Répartition"
             />
-            <ChartRequests
+            <DynamicChartRequests
               reqDetails={metrics.byteWeight}
               title="Taille des requêtes - Répartition"
             />
           </div>
           <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto">
             {bestPractices.map((practice, index) => {
-              return <BestPracticeCard key={`Bp-n°${index}`} practice={practice} />
+              return <DynamicBestPracticeCard key={`Bp-n°${index}`} practice={practice} />
             })}
           </div>
         </div>
