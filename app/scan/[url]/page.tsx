@@ -32,16 +32,16 @@ export default async function Page({
   }>
 }) {
   const { url } = await params
-  const urlToString = url.replace("--", "://").replaceAll("-", "/").replaceAll("!", ".")
+  const decodedUrl = decodeURIComponent(url)
 
-  const result = await requestLighthouse(urlToString)
+  const result = await requestLighthouse(decodedUrl)
 
   const metrics = new AnalysisService(result).getEcoMetric()
   const ecoIndex = new EcoIndexCalculator(metrics).getEcoIndex()
   const navigation = new NavItemsBuilder()
     .withHome()
     .withScan()
-    .withScanUrl(urlToString)
+    .withScanUrl(decodedUrl)
     .getItems()
 
   const bestPractices = bestPracticesFactory(result)
