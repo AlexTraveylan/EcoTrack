@@ -1,6 +1,6 @@
 import { createHash } from "crypto"
 
-export class URLCrypto {
+export class URLTransformer {
   private static readonly SEPARATOR = "-"
 
   static toBase64Url(url: string): string {
