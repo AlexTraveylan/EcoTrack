@@ -17,7 +17,7 @@ export default async function Page() {
   return (
     <>
       <Header navigation={navigation} />
-      <main className="container mx-auto px-4 py-8">
+      <main className="min-h-[calc(100vh-8rem)] container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-8">{"Suivi des Projets"}</h1>
         <div className="grid gap-6">
           {projects.map((project) => (

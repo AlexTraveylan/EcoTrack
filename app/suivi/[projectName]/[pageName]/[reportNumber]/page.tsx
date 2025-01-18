@@ -56,7 +56,7 @@ export default async function Page({
   return (
     <>
       <Header navigation={navigation} />
-      <main className="py-4">
+      <main className="min-h-[calc(100vh-8rem)] py-4">
         <div className="flex flex-col gap-4">
           <ReportInfos metrics={metrics} />
           <DynamicEcoIndexDisplay ecoIndex={ecoIndex} />
