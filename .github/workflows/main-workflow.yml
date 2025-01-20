@@ -77,7 +77,7 @@ jobs:
 
           # Make a commit
           git add package.json package-lock.json
-          git commit -m "[BOT] Version to: $(cat package.json | jq -r .version)"
+          git commit -m "[BOT] Version bump to: $(cat package.json | jq -r .version)"
 
           # Push commit without triggering a new build
           git push origin HEAD:$GITHUB_REF
