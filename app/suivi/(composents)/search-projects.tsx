@@ -50,7 +50,7 @@ const SearchProjects = ({ projects }: { projects: Project[] }) => {
 
         {filteredProjects.length === 0 && (
           <p className="text-center text-gray-500">
-            Aucun projet trouvé pour "{searchTerm}"
+            {`Aucun projet trouvé pour "${searchTerm}"`}
           </p>
         )}
       </div>
