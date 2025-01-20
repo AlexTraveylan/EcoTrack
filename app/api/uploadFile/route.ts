@@ -1,3 +1,5 @@
+import { AnalysisService } from "@/lib/analysis.service"
+import { bestPracticesFactory } from "@/lib/best-practice.service"
 import { JsonLhExtractorFactory } from "@/lib/folder-services/factories"
 import { settings } from "@/lib/settings"
 import { NextResponse } from "next/server"
@@ -21,10 +23,16 @@ export async function POST(request: Request) {
 
     try {
       jsonContent = JSON.parse(fileContent)
+
+      const metrics = new AnalysisService(jsonContent).getEcoMetric()
+      console.log("Métriques de l'analyse:", metrics)
+      const bestPractices = bestPracticesFactory(jsonContent)
+      bestPractices.forEach((bp) => bp.checkIfValid())
+      console.log("Toutes les bonnes pratiques sont valides")
     } catch (e) {
       console.error("Erreur lors de la lecture du fichier JSON:", e)
       return NextResponse.json(
-        { error: "Le fichier doit être un JSON valide" },
+        { error: "Le fichier doit être un JSON valide, provenant de lighthouse" },
         { status: 400 }
       )
     }
@@ -36,8 +44,6 @@ export async function POST(request: Request) {
       pageName,
       jsonContent
     )
-
-    uploadService.refreshProjectsPaths()
 
     return NextResponse.json(
       { message: `Téléchargement réussi : ${result_path}` },

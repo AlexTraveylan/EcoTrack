@@ -15,6 +15,7 @@ import { File, Upload } from "lucide-react"
 import { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 interface FormValues {
   projectName: string
@@ -78,9 +79,9 @@ export const JsonUploadForm = () => {
       const data = await response.json()
 
       form.reset()
-      console.log("Téléchargement réussi", data)
+      toast.success(data.message)
     } catch (error) {
-      console.error("Erreur lors du téléchargement:", error)
+      toast.error(String(error))
     }
   }
 

@@ -1,4 +1,5 @@
 import { promises as fs } from "fs"
+import { glob } from "glob"
 import type { Result } from "lighthouse"
 import path from "path"
 import { settings } from "../settings"
@@ -24,16 +25,19 @@ export class PublicPathExtractor implements JsonLhExtractor, fileActions {
       throw new Error("'public' is the only bucket available on this service")
     }
 
-    const jsonPath = path.join(
-      settings.baseUrl,
-      bucketName,
-      projectName,
-      pageName,
-      `${jsonContent.fetchTime}.json`
-    )
-    await fs.mkdir(path.dirname(jsonPath), { recursive: true })
+    const basePath = process.cwd()
+    const dirPath = path.join(basePath, bucketName, projectName, pageName)
+
+    const existingFiles = await glob("*.json", { cwd: dirPath })
+    const reportNumber = existingFiles.length + 1
+
+    const jsonPath = path.join(dirPath, `${reportNumber}.json`)
+
+    await fs.mkdir(dirPath, { recursive: true })
     await fs.writeFile(jsonPath, JSON.stringify(jsonContent))
+
     this.refreshProjectsPaths()
+
     return jsonPath
   }
   private projects: Project[] | null = null
