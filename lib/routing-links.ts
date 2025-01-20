@@ -18,6 +18,11 @@ export const scanItem: NavItem = {
   href: "/scan",
 }
 
+export const ajoutItem: NavItem = {
+  label: "Ajout",
+  href: "/ajout",
+}
+
 export const scanUrlItem = (url: string): NavItem => {
   return {
     label: url,
@@ -81,6 +86,15 @@ export class NavItemsBuilder {
     }
 
     this.projectItems.push(scanItem)
+    return this
+  }
+
+  public withAjout(): NavItemsBuilder {
+    if (this.projectItems.length !== 1 || this.projectItems[0].label !== "Accueil") {
+      throw new Error("Ajout page should be the second page")
+    }
+
+    this.projectItems.push(ajoutItem)
     return this
   }
 

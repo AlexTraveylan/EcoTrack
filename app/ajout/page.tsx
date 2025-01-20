@@ -3,7 +3,7 @@ import Header from "@/components/header"
 import { NavItemsBuilder } from "@/lib/routing-links"
 
 export default async function Page() {
-  const navigation = new NavItemsBuilder().withHome().getItems()
+  const navigation = new NavItemsBuilder().withHome().withAjout().getItems()
 
   return (
     <>
