@@ -1,7 +1,7 @@
 import ChartLineHistory, {
   type ChartLinePossibilities,
   type MetricRecord,
-} from "@/components/chart-line-history"
+} from "@/app/suivi/[projectName]/[pageName]/(composants)/chart-line-history"
 import Header from "@/components/header"
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"

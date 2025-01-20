@@ -1,5 +1,5 @@
+import ScanUrlForm from "@/app/scan/(composants)/scan-url-form"
 import Header from "@/components/header"
-import ScanUrlForm from "@/components/scan-url-form"
 import { NavItemsBuilder } from "@/lib/routing-links"
 
 export default async function Page() {

@@ -1,5 +1,5 @@
+import { JsonUploadForm } from "@/app/ajout/(composants)/json-upload-form"
 import Header from "@/components/header"
-import { JsonUploadForm } from "@/components/json-upload-form"
 import { NavItemsBuilder } from "@/lib/routing-links"
 
 export default async function Page() {
@@ -8,7 +8,7 @@ export default async function Page() {
   return (
     <>
       <Header navigation={navigation} />
-      <main className="min-h-[calc(100vh-8rem)] container mx-auto px-4 py-8">
+      <main className="min-h-[calc(100vh-8rem)] container mx-auto px-4 py-8 items-center grid">
         <JsonUploadForm />
       </main>
     </>
