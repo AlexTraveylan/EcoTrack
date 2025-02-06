@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { BestPractice } from "@/lib/best-practice.service"
+import { getReferentialFranceTravailUrl } from "@/lib/referential"
 import type { Impact } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { CheckCircle, XCircle } from "lucide-react"
@@ -62,7 +63,20 @@ const BestPracticeCard: React.FC<{ practice: BestPractice }> = ({ practice }) =>
               )}
               {practice.title}
             </CardTitle>
-            <CardDescription>Ref: {practice.refCode}</CardDescription>
+            <CardDescription className="flex gap-2">
+              <span>{`Réf${practice.bpNumbers.length > 1 ? "s" : ""} :`}</span>
+              {practice.bpNumbers.map((bpNumber) => (
+                <a
+                  className="hover:text-primary transition-colors"
+                  key={bpNumber}
+                  href={getReferentialFranceTravailUrl(bpNumber)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {bpNumber}
+                </a>
+              ))}
+            </CardDescription>
           </div>
           <div className="flex gap-2">
             {practice.impact.map((imp) => (

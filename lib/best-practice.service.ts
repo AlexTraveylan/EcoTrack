@@ -3,7 +3,7 @@ import type { Impact } from "./types"
 
 export interface BestPractice {
   title: string
-  refCode: string
+  bpNumbers: string[]
   impact: Impact[]
   checkIfValid(): boolean
   getAcceptanceMessage(): string
@@ -35,7 +35,7 @@ function extractUrls(result: Result, key: string): string[] {
 
 export class BPLazyLoading implements BestPractice {
   public readonly title: string = "Mettre en place le Lazy-loading"
-  public readonly refCode: string = "UI-01"
+  public readonly bpNumbers: string[] = ["UI-01"]
   public readonly impact: Impact[] = ["dom", "requests", "size"]
   private invalidUrls: string[] | null = null
   private readonly acceptanceValue = 0
@@ -69,7 +69,7 @@ export class BPLazyLoading implements BestPractice {
 export class BPOptimizeImages implements BestPractice {
   public readonly title: string =
     "Utiliser les images de manière approprié (taille, compression)"
-  public readonly refCode: string = "UI-20 / UI-21 / UI-22"
+  public readonly bpNumbers: string[] = ["UI-20", "UI-21", "UI-22"]
   public readonly impact: Impact[] = ["size"]
   private unsizedImgUrls: string[] | null = null
   private unoptimizedImgUrls: string[] | null = null
@@ -129,7 +129,7 @@ export class BPOptimizeImages implements BestPractice {
 
 export class BPMinifyCode implements BestPractice {
   public readonly title: string = "Minifier le code"
-  public readonly refCode: string = "CO-16"
+  public readonly bpNumbers: string[] = ["CO-16"]
   public readonly impact: Impact[] = ["size"]
   private unminifiedCssUrls: string[] | null = null
   private unminifiedJsUrls: string[] | null = null
@@ -190,7 +190,7 @@ export class BPMinifyCode implements BestPractice {
 
 export class BPUnusedCode implements BestPractice {
   public readonly title: string = "Supprimer le code inutilisé"
-  public readonly refCode: string = "CO-17"
+  public readonly bpNumbers: string[] = ["CO-17"]
   public readonly impact: Impact[] = ["size"]
   private readonly acceptanceValue = 0.4
   private unusedCssRatio: number | null = null
@@ -267,7 +267,7 @@ export class BPUnusedCode implements BestPractice {
 
 export class BPWebfont implements BestPractice {
   public readonly title: string = "Utiliser les Webfonts de manière responsable"
-  public readonly refCode: string = "UI-26 / UI-27"
+  public readonly bpNumbers: string[] = ["UI-26", "UI-27"]
   public readonly impact: Impact[] = ["requests", "size"]
   private readonly acceptanceValueNbFonts = 3
   private readonly acceptanceValueNbBadFonts = 0
@@ -329,7 +329,7 @@ export class BPWebfont implements BestPractice {
 
 export class BPHttpFlux implements BestPractice {
   public readonly title: string = "Utiliser les flux HTTP de manière responsable"
-  public readonly refCode: string = "AR-22 / AR-23"
+  public readonly bpNumbers: string[] = ["AR-22", "AR-23"]
   public readonly impact: Impact[] = []
   private readonly acceptanceValue = 0
   private http1Urls: string[] | null = null
